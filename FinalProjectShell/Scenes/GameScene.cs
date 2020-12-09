@@ -34,6 +34,12 @@ namespace FinalProject
             sceneComponents = new List<GameComponent>();           
         }
 
+        public override void Initialize()
+        {
+            this.AddComponent(new Board(Game));
+            base.Initialize();
+        }
+
         public override void Update(GameTime gameTime)
         {
              // Used to clean up our game components list
