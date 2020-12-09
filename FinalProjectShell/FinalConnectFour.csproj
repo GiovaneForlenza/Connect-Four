@@ -62,6 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Board_Back.png" />
+    <Content Include="Content\Board_Front.png" />
+    <Content Include="Content\Board_Full.png" />
+    <Content Include="Content\Red.png" />
+    <Content Include="Content\Yellow.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
