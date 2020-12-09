@@ -29,7 +29,7 @@ namespace FinalProject
         List<GameComponent> sceneComponents;
 
 
-        public GameScene(Game game) : base(game)
+        public GameScene(Microsoft.Xna.Framework.Game game) : base(game)
         {
             sceneComponents = new List<GameComponent>();           
         }

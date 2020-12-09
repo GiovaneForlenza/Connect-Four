@@ -12,7 +12,7 @@ namespace FinalProject
 
     public class StartScene : GameScene
     {
-        public StartScene(Game game): base(game)
+        public StartScene(Microsoft.Xna.Framework.Game game): base(game)
         {          
         }
 

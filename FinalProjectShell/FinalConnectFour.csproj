@@ -41,8 +41,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PlayerTwo.cs" />
+    <Compile Include="PlayerOne.cs" />
     <Compile Include="Scenes\ActionScene.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Scenes\GameScene.cs" />
     <Compile Include="Scenes\HelpScene.cs" />
     <Compile Include="GameComponents\HelpTextComponent.cs" />

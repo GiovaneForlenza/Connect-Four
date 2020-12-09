@@ -33,7 +33,7 @@ namespace FinalProject
 
         private KeyboardState prevKS;
 
-        public MenuComponent(Game game) : base(game)
+        public MenuComponent(Microsoft.Xna.Framework.Game game) : base(game)
         {
             menuItems = new List<string>
             {
@@ -50,7 +50,7 @@ namespace FinalProject
         {
             KeyboardState ks = Keyboard.GetState();
 
-            if (ks.IsKeyDown(Keys.Down) && prevKS.IsKeyUp(Keys.Down))
+            if (ks.IsKeyDown(Keys.Down) && prevKS.IsKeyUp(Keys.Down) || ks.IsKeyDown(Keys.S) && prevKS.IsKeyUp(Keys.S))
             {
                 selectedIndex++;
 
@@ -62,7 +62,7 @@ namespace FinalProject
                 }
             }
 
-            if (ks.IsKeyDown(Keys.Up) && prevKS.IsKeyUp(Keys.Up))
+            if (ks.IsKeyDown(Keys.Up) && prevKS.IsKeyUp(Keys.Up) || ks.IsKeyDown(Keys.W) && prevKS.IsKeyUp(Keys.W))
             {
                 selectedIndex--;
 
@@ -73,7 +73,7 @@ namespace FinalProject
                     selectedIndex = menuItems.Count - 1;
                 }
             }
-            else if (ks.IsKeyDown(Keys.Enter))
+            else if (ks.IsKeyDown(Keys.Enter) || ks.IsKeyDown(Keys.Space))
             {
                 SwitchScenes();
             }
@@ -85,7 +85,7 @@ namespace FinalProject
 
         private void SwitchScenes()
         {
-            ((Game1)Game).HideAllScenes();
+            ((Game)Game).HideAllScenes();
 
             switch ((MenuSelection)selectedIndex)
             {
@@ -143,8 +143,8 @@ namespace FinalProject
         public override void Initialize()
         {
             // starting position of the menu items - but you can decise to put it elsewhere
-            startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2,
-                                      GraphicsDevice.Viewport.Height / 2);
+            startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 3 * 1.3f,
+                                      GraphicsDevice.Viewport.Height / 3);
 
             base.Initialize();
         }

@@ -11,7 +11,7 @@ namespace FinalProject
 {
     public class HelpScene : GameScene
     {
-        public HelpScene(Game game) : base(game)
+        public HelpScene(Microsoft.Xna.Framework.Game game) : base(game)
         {
         }
 
@@ -31,7 +31,7 @@ namespace FinalProject
             // handle the escape key for this scene
             if (ks.IsKeyDown(Keys.Escape))
             {
-                ((Game1)Game).HideAllScenes();
+                ((Game)Game).HideAllScenes();
                 Game.Services.GetService<StartScene>().Show();
             }
 

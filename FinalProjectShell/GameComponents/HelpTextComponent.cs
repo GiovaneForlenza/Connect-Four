@@ -8,7 +8,7 @@ namespace FinalProject
     {
         Texture2D texture;
 
-        public HelpTextComponent(Game game) : base(game)
+        public HelpTextComponent(Microsoft.Xna.Framework.Game game) : base(game)
         {
             
         }
