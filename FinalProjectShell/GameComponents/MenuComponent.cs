@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FinalProject
 {
+    //Changes
     public enum MenuSelection
     {
         StartGame,
