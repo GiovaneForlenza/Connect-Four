@@ -51,6 +51,7 @@ namespace FinalProject
         {
             boardTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Board_Full");
             tileTexture = Game.Content.Load<Texture2D>(@"Images\Assets\grid");
+            //Game.Services.GetService<PlayerOne>();
             base.LoadContent();
         }
 

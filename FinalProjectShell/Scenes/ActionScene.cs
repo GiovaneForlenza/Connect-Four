@@ -20,7 +20,12 @@ namespace FinalProject
 
 
             this.AddComponent(new Board(Game));
-            this.AddComponent(new PlayerOne(Game));
+            PlayerOne playerOne = new PlayerOne(Game);
+            this.AddComponent(playerOne);
+            Game.Services.AddService<PlayerOne>(playerOne);
+            PlayerTwo playerTwo = new PlayerTwo(Game);
+            this.AddComponent(playerTwo);
+            Game.Services.AddService<PlayerTwo>(playerTwo);
             this.AddComponent(new ClickController(Game));
 
             base.Initialize();

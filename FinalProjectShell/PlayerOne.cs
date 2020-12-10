@@ -15,7 +15,8 @@ namespace FinalProject
     {
         Texture2D texture;
         Vector2 position;
-        
+
+        PlayerActive pAtive = PlayerActive.Active;
         public PlayerOne(Game game) : base(game)
         {
         }
