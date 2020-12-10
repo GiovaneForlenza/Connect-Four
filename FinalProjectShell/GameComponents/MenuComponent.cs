@@ -113,6 +113,8 @@ namespace FinalProject
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
 
+            startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - regularFont.MeasureString("Start Game\nHelp\nHigh Score\nCredits\nQuit").X / 2,
+                                      GraphicsDevice.Viewport.Height / 2 - regularFont.MeasureString("Start Game\nHelp\nHigh Score\nCredits\nQuit").Y / 2);
             Vector2 nextPosition = startingPosition;
 
             sb.Begin();
@@ -144,9 +146,7 @@ namespace FinalProject
         public override void Initialize()
         {
             // starting position of the menu items - but you can decise to put it elsewhere
-            startingPosition = new Vector2(GraphicsDevice.Viewport.Width / 3 * 1.3f,
-                                      GraphicsDevice.Viewport.Height / 3);
-
+            
             base.Initialize();
         }
 

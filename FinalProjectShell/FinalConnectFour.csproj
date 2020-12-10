@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
+    <Compile Include="ClickController.cs" />
     <Compile Include="PlayerTwo.cs" />
     <Compile Include="PlayerOne.cs" />
     <Compile Include="Scenes\ActionScene.cs" />

@@ -31,12 +31,11 @@ namespace FinalProject
 
         public GameScene(Microsoft.Xna.Framework.Game game) : base(game)
         {
-            sceneComponents = new List<GameComponent>();           
+            sceneComponents = new List<GameComponent>();
         }
 
         public override void Initialize()
         {
-            this.AddComponent(new Board(Game));
             base.Initialize();
         }
 

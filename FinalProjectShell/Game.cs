@@ -16,8 +16,10 @@ namespace FinalProject
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 694;
+            graphics.PreferredBackBufferHeight = 640;
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         /// <summary>

@@ -19,6 +19,9 @@ namespace FinalProject
             // game as well as keeping track of what belongs to it.
 
 
+            this.AddComponent(new Board(Game));
+            this.AddComponent(new PlayerOne(Game));
+            this.AddComponent(new ClickController(Game));
 
             base.Initialize();
         }

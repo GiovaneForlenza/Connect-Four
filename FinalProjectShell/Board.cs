@@ -16,7 +16,7 @@ namespace FinalProject
         {
         }
 
-        Vector2 BoardPosition { get; }
+        Vector2 boardPosition;
 
 
 
@@ -25,6 +25,27 @@ namespace FinalProject
             boardTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Board_Full");
 
             base.LoadContent();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            boardPosition = new Vector2(0, 100);
+
+            MouseState ms = Mouse.GetState();
+            if (ms.LeftButton == ButtonState.Pressed)
+            {
+                ClickController.Clicked(ms);
+            }
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
+            sb.Begin();
+            sb.Draw(boardTexture, boardPosition, Microsoft.Xna.Framework.Color.White);
+            sb.End();
+            base.Draw(gameTime);
         }
     }
 }
