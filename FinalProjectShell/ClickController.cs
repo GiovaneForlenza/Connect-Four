@@ -11,7 +11,7 @@ namespace FinalProject
 {
     class ClickController : GameComponent
     {
-        MouseState ms;
+        static int timesToWrite = 0;
 
         public ClickController(Microsoft.Xna.Framework.Game game) : base(game)
         {

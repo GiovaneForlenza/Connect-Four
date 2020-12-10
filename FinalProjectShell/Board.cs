@@ -11,9 +11,17 @@ namespace FinalProject
     class Board : DrawableGameComponent
     {
         Texture2D boardTexture;
-
+        int gridSizeX;
+        int gridSizeY;
+        int tileSizeX, tileSizeY;
+        Texture2D tileTexture;
+        bool print = true;
         public Board(Microsoft.Xna.Framework.Game game) : base(game)
         {
+            tileSizeX = 90;
+            tileSizeY = 80;
+            gridSizeX = Game.GraphicsDevice.Viewport.Width / tileSizeX;
+            gridSizeY = Game.GraphicsDevice.Viewport.Height / tileSizeY;
         }
 
         Vector2 boardPosition;
@@ -23,7 +31,7 @@ namespace FinalProject
         protected override void LoadContent()
         {
             boardTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Board_Full");
-
+            tileTexture = Game.Content.Load<Texture2D>(@"Images\Assets\grid");
             base.LoadContent();
         }
 
@@ -44,6 +52,20 @@ namespace FinalProject
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
             sb.Draw(boardTexture, boardPosition, Microsoft.Xna.Framework.Color.White);
+            for (float i = 0.9f; i < gridSizeX; ++i)
+            {
+                for (float j = 2.1f; j < gridSizeY; ++j)
+                {
+                    sb.Draw(tileTexture, new Microsoft.Xna.Framework.Rectangle(int.Parse((i * tileSizeX).ToString()), int.Parse((j * tileSizeY).ToString())
+                        , tileSizeX, tileSizeY), Microsoft.Xna.Framework.Color.White);
+                    if (print)
+                    {
+
+                    System.Console.WriteLine(i*tileSizeX + ", " + j*tileSizeY);
+                    }
+                }
+            }
+            print = false;
             sb.End();
             base.Draw(gameTime);
         }
