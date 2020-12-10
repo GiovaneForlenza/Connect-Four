@@ -19,7 +19,7 @@ namespace FinalProject
             graphics.PreferredBackBufferWidth = 694;
             graphics.PreferredBackBufferHeight = 640;
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
+            IsMouseVisible = true;
         }
 
         /// <summary>
