@@ -113,9 +113,15 @@ namespace FinalProject
             if (placePosition != -1)
             {
                 boardArray[playedPosition, placePosition] = 1;
+                PlacePiece(playedPosition, placePosition);
             }
             DisplayBoard();
             //Game.Components.Add
+        }
+
+        private void PlacePiece(int playedPosition, int placePosition)
+        {
+            
         }
 
         private void DisplayBoard()
@@ -136,6 +142,14 @@ namespace FinalProject
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
             sb.Draw(boardTexture, boardPosition, Microsoft.Xna.Framework.Color.White);
+            //DrawGrid(sb);
+            print = false;
+            sb.End();
+            base.Draw(gameTime);
+        }
+
+        private void DrawGrid(SpriteBatch sb)
+        {
             for (float i = 0.9f; i < gridSizeX; ++i)
             {
                 for (float j = 2.1f; j < gridSizeY; ++j)
@@ -144,14 +158,10 @@ namespace FinalProject
                         , tileSizeX, tileSizeY), Microsoft.Xna.Framework.Color.White);
                     if (print)
                     {
-
                         //System.Console.WriteLine(i * tileSizeX + ", " + j * tileSizeY);
                     }
                 }
             }
-            print = false;
-            sb.End();
-            base.Draw(gameTime);
         }
     }
 }

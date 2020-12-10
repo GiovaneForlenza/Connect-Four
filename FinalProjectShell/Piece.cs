@@ -19,6 +19,8 @@ namespace FinalProject
             this.position = position;
         }
 
+
+
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();

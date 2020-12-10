@@ -7,8 +7,10 @@ namespace FinalProject
 {
     public class ActionScene : GameScene
     {
+        Microsoft.Xna.Framework.Game game;
         public ActionScene(Microsoft.Xna.Framework.Game game) : base(game)
         {
+            this.game = game;
         }
 
         public override void Initialize()
