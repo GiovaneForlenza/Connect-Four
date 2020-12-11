@@ -35,7 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -70,8 +71,8 @@
     <Content Include="Content\Board_Front.png" />
     <Content Include="Content\Board_Full.png" />
     <Content Include="Content\Red.png" />
-    <Content Include="Content\Yellow.png" />
     <Content Include="Icon.ico" />
+    <Content Include="Content\Yellow.png" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
