@@ -68,7 +68,7 @@ namespace FinalProject
                 } else
                 {
 
-                    position = Vector2.Lerp(position, restPosition, 0.05f);
+                    position = Vector2.Lerp(position, restPosition, 0.03f);
                 }
 
                 //lerp to restPosition
