@@ -20,7 +20,7 @@ namespace FinalProject
         bool print = true;
 
         Player activePlayer;
-
+        int counter;
 
         MouseState pvMouseS;
 
@@ -39,6 +39,7 @@ namespace FinalProject
             gridSizeY = windowSizeY / tileSizeY;
             activePlayer = Game.Services.GetService<PlayerOne>();
             activePlayer.PlayerEnabled = true;
+            counter++;
         }
 
 
@@ -119,6 +120,11 @@ namespace FinalProject
                 }
             }
             //Check Win
+            counter++;
+            if(counter >= 7)
+            {
+                
+            }
 
 
             if (placePosition != -1)
@@ -213,7 +219,16 @@ namespace FinalProject
             }
         }
 
+        private void CheckForWin(Player player)
+        {
+            int check = 0;
+            switch(player)
+            {
+                case PlayerOne: check = 1; break;
+                case PlayerTwo: check = 2; break;
+            }
 
+        }
 
         private void CheckRows(int row, int chek)
         {
