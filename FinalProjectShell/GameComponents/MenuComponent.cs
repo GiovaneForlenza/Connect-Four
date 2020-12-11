@@ -86,7 +86,7 @@ namespace FinalProject
 
         private void SwitchScenes()
         {
-            ((Game)Game).HideAllScenes();
+            ((ConnectFourGame)Game).HideAllScenes();
 
             switch ((MenuSelection)selectedIndex)
             {

@@ -13,29 +13,20 @@ namespace FinalProject
 {
     class PlayerOne : Player
     {        
-        public PlayerOne(Microsoft.Xna.Framework.Game game, GameScene parent) : base(game, parent)
+        public PlayerOne(Game game, GameScene parent) : base(game, parent)
         {
         }
 
-        protected override void OnEnabledChanged(object sender, EventArgs args)
+        public override void CreateNewToken()
         {
-            if( Enabled )
+           if( PlayerEnabled)
             {
-                // create a new token
-                // save it to a last toeken created placeholder before adding it as a component
-                lastCreated = new Token(Game, true);                
+                lastCreated = new Token(Game, true);
                 this.parent.AddComponent(lastCreated);
-
-            } else
-            {
-                // tell that last token to lerp (which will move sideways to fit the row, and then down to posiotion
-                // then the teoke will set its own enabled to false
-                // then in the playaser set last token reference to null
-                lastCreated = null;
             }
-
-            base.OnEnabledChanged(sender, args);
         }
+
+        
 
 
 

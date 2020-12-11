@@ -23,6 +23,7 @@ namespace FinalProject
 
         MouseState pvMouseS;
 
+
         int[,] boardArray = new int[ROWS, COLS];
 
         Vector2 boardPosition;
@@ -33,12 +34,14 @@ namespace FinalProject
             tileSizeY = 80;
             gridSizeX = Game.GraphicsDevice.Viewport.Width / tileSizeX;
             gridSizeY = Game.GraphicsDevice.Viewport.Height / tileSizeY;
-
+            activePlayer = Game.Services.GetService<PlayerOne>();
+            activePlayer.PlayerEnabled = true;
         }
 
 
         public override void Initialize()
         {
+
             for (int row = 0; row < ROWS; row++)
             {
                 for (int column = 0; column < COLS; column++)
@@ -46,7 +49,7 @@ namespace FinalProject
                     boardArray[row, column] = 0;
                 }
             }
-            activePlayer = Game.Services.GetService<PlayerOne>();
+            activePlayer.CreateNewToken();
             DisplayBoard();
             base.Initialize();
         }
@@ -71,7 +74,6 @@ namespace FinalProject
             {
                 //ClickController.Clicked(ms);
                 PlayPosition(ms.X);
-
             }
             pvMouseS = Mouse.GetState();
             base.Update(gameTime);
@@ -82,13 +84,36 @@ namespace FinalProject
             //Console.WriteLine(x / tileSizeX);            
             //Console.WriteLine(position);
             int playedPosition = position;
-            if (playedPosition >= 40 && playedPosition <= 110) playedPosition = 0;
-            else if (playedPosition >= 136 && playedPosition <= 206) playedPosition = 1;
-            else if (playedPosition >= 226 && playedPosition <= 296) playedPosition = 2;
-            else if (playedPosition >= 316 && playedPosition <= 386) playedPosition = 3;
-            else if (playedPosition >= 406 && playedPosition <= 476) playedPosition = 4;
-            else if (playedPosition >= 496 && playedPosition <= 566) playedPosition = 5;
-            else if (playedPosition >= 586 && playedPosition <= 656) playedPosition = 6;
+            int dropXpos, dropYpos;
+            if (playedPosition >= 40 && playedPosition <= 110)
+            {
+                playedPosition = 0; 
+                dropXpos = 75;
+            } else if (playedPosition >= 136 && playedPosition <= 206)
+            {
+                playedPosition = 1;
+                dropXpos = 171;
+            } else if (playedPosition >= 226 && playedPosition <= 296)
+            {
+                playedPosition = 2;
+                dropXpos = 261;
+            } else if (playedPosition >= 316 && playedPosition <= 386)
+            {
+                playedPosition = 3;
+                dropXpos = 351;
+            } else if (playedPosition >= 406 && playedPosition <= 476)
+            {
+                playedPosition = 4;
+                dropXpos = 441;
+            } else if (playedPosition >= 496 && playedPosition <= 566)
+            {
+                playedPosition = 5;
+                dropXpos = 531;
+            } else if (playedPosition >= 586 && playedPosition <= 656)
+            {
+                playedPosition = 6;
+                dropXpos = 621;
+            }
             //Console.WriteLine(playedPosition);
             int placePosition = -1;
             if (playedPosition == 0 || playedPosition == 1 || playedPosition == 2 ||
@@ -115,36 +140,66 @@ namespace FinalProject
                     }
                 }
             }
+            //Check Win
+
             if (placePosition != -1)
             {
-                //boardArray[playedPosition, placePosition] = 1;
                 boardArray[playedPosition, placePosition] = activePlayer is PlayerOne ? 1 : 2;
-                // Tell the active player to start moving (lerp) - he should pass this on to 
-                SwitchActivePlayer();
-                // once the lerp in the player is done, the player will call 
-                // SwitchPlay 
+                //Token drops to position
+                // Tell your active player to drop the token
 
-                PlacePiece(playedPosition, placePosition);
+                //Find out position.X center position
+                //Find out placePosition.Y center position
+
+                switch (placePosition)
+                {
+                    //case 0:
+                    //    dropYpos = ;
+                    //    break;
+                    //case 1:
+                    //    dropYpos = ;
+                    //    break;
+                    //case 2:
+                    //    dropYpos = ;
+                    //    break;
+                    //case 3:
+                    //    dropYpos = ;
+                    //    break;
+                    //case 4:
+                    //    dropYpos = ;
+                    //    break;
+                    //case 5:
+                    //    dropYpos = ;
+                    //    break;
+                    case 6:
+                        dropYpos = 594;
+                        break;
+                }
+                //activePlayer.DropToken(new Vector2(dropXpos, ));
+                SwitchActivePlayer();
+                /*PlacePiece(playedPosition, placePosition)*/
+                ;
             }
             DisplayBoard();
             //Game.Components.Add
         }
 
-        public void SwitchActivePlayer()
+        private void SwitchActivePlayer()
         {
             if (activePlayer != null)
             {
-                activePlayer.Enabled = false;
+                activePlayer.PlayerEnabled = false;
             }
 
-            // based on who was actiove, selectthe other and set to active
-            // then enable both visible and Enabled
             if (activePlayer is PlayerOne)
+            {
                 activePlayer = Game.Services.GetService<PlayerTwo>();
-            else
+            } else
+            {
                 activePlayer = Game.Services.GetService<PlayerOne>();
-
-            activePlayer.Enabled = true;
+            }
+            activePlayer.PlayerEnabled = true;
+            activePlayer.CreateNewToken();
         }
 
         private void PlacePiece(int playedPosition, int placePosition)
@@ -186,6 +241,7 @@ namespace FinalProject
                         , tileSizeX, tileSizeY), Microsoft.Xna.Framework.Color.White);
                     if (print)
                     {
+
                         //System.Console.WriteLine(i * tileSizeX + ", " + j * tileSizeY);
                     }
                 }

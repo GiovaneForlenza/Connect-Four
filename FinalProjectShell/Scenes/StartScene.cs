@@ -20,7 +20,7 @@ namespace FinalProject
         {
             // create and add any components that belong to this scene
             AddComponent(new MenuComponent(Game));
-            
+
             base.Initialize();
         }
         

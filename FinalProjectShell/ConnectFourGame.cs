@@ -8,12 +8,12 @@ namespace FinalProject
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game : Microsoft.Xna.Framework.Game
+    public class ConnectFourGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
        
-        public Game()
+        public ConnectFourGame()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 694;

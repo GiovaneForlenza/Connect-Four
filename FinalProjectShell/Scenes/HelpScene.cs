@@ -31,7 +31,7 @@ namespace FinalProject
             // handle the escape key for this scene
             if (ks.IsKeyDown(Keys.Escape))
             {
-                ((Game)Game).HideAllScenes();
+                ((ConnectFourGame)Game).HideAllScenes();
                 Game.Services.GetService<StartScene>().Show();
             }
 

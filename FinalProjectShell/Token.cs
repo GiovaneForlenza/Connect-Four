@@ -11,38 +11,61 @@ namespace FinalProject
 {
     public class Token : DrawableGameComponent
     {
-        static Texture2D playerOneTexture;
-        static Texture2D playerTwoTexture;
+        static Texture2D redTexture;
+        static Texture2D yellowTexture;
         Texture2D texture;
-        bool playerOneActive;
+        bool useRedTexture;
+
+        bool moveToRestPosition = false;
+        Vector2 restPosition;
 
         Vector2 position;
-        public Token(Microsoft.Xna.Framework.Game game, bool playerOneActive) : base(game)
+        public Token(Game game, bool playerOneActive) : base(game)
         {
-            // this.texture = texture;
-            this.playerOneActive = playerOneActive;
+
+            this.useRedTexture = playerOneActive;
         }
 
         protected override void LoadContent()
         {
             // if null, load the textures
-            if (playerOneTexture == null)
+            if (redTexture == null)
             {
-                playerOneTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Red");
-                playerTwoTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Yellow");
+                redTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Red");
+                yellowTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Yellow");
             }
+
+            texture = useRedTexture ? redTexture : yellowTexture;
 
             base.LoadContent();
         }
 
+        internal void MoveTokenToRestingPosition(Vector2 tokenRestingPositon)
+        {
+            moveToRestPosition = true;
+            restPosition = tokenRestingPositon;
+        }
 
         public override void Update(GameTime gameTime)
         {
-            texture = playerOneActive ? playerOneTexture : playerTwoTexture;
-            MouseState ms = Mouse.GetState();
-            position = new Vector2(ms.X - texture.Width / 2, 10);
+            //texture =  yellowTexture;
+            //if (useRedTexture) texture = redTexture;
+            if (!moveToRestPosition)
+            {
 
-            position.X = MathHelper.Clamp(position.X, 40, Game.GraphicsDevice.Viewport.Width - texture.Width - 40);
+                MouseState ms = Mouse.GetState();
+                position = new Vector2(ms.X - texture.Width / 2, 10);
+
+                position.X = MathHelper.Clamp(position.X, 40, Game.GraphicsDevice.Viewport.Width - texture.Width - 40);
+            } else
+            {
+                //lerp to restPosition
+                //position = lerp;
+                if(position == restPosition)
+                {
+                    this.Enabled = false;
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -50,7 +73,6 @@ namespace FinalProject
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
-            texture = playerOneActive ? playerOneTexture : playerTwoTexture;
             // based on which player you belong to, draw player1Texture or player2Texture
 
             sb.Draw(texture, position, Microsoft.Xna.Framework.Color.White);
