@@ -15,7 +15,6 @@ namespace FinalProject
         Inactive = 1
     }
 
-    // public class Player : GameComponent
 
     public abstract class Player : GameComponent
     {

@@ -28,7 +28,6 @@ namespace FinalProject
 
         protected override void LoadContent()
         {
-            // if null, load the textures
             if (redTexture == null)
             {
                 redTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Red");
@@ -44,14 +43,10 @@ namespace FinalProject
         {
             moveToRestPosition = true;
             restPosition = tokenRestingPositon;
-
-            //lerp
         }
 
         public override void Update(GameTime gameTime)
         {
-            //texture =  yellowTexture;
-            //if (useRedTexture) texture = redTexture;
             if (!moveToRestPosition)
             {
 
@@ -70,9 +65,6 @@ namespace FinalProject
 
                     position = Vector2.Lerp(position, restPosition, 0.05f);
                 }
-
-                //lerp to restPosition
-                //position = lerp;
                 if (position == restPosition)
                 {
                     this.Enabled = false;
@@ -85,7 +77,6 @@ namespace FinalProject
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
-            // based on which player you belong to, draw player1Texture or player2Texture
 
             sb.Draw(texture, position, Microsoft.Xna.Framework.Color.White);
 
