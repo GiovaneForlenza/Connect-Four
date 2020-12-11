@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+//using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +13,7 @@ namespace FinalProject
     {
         Texture2D boardTexture;
         int gridSizeX, gridSizeY;
+        int windowSizeX, windowSizeY;
         int tileSizeX, tileSizeY;
         const int ROWS = 7, COLS = 6;
         Texture2D tileTexture;
@@ -23,18 +24,19 @@ namespace FinalProject
 
         MouseState pvMouseS;
 
-//aaaaaaaaaaaaaaaaaaa
         int[,] boardArray = new int[ROWS, COLS];
         Vector2[,] boardPositionArray = new Vector2[ROWS, COLS];
 
         Vector2 boardPosition;
 
-        public Board(Microsoft.Xna.Framework.Game game) : base(game)
+        public Board(Game game) : base(game)
         {
-            tileSizeX = 90;
-            tileSizeY = 80;
-            gridSizeX = Game.GraphicsDevice.Viewport.Width / tileSizeX;
-            gridSizeY = Game.GraphicsDevice.Viewport.Height / tileSizeY;
+            tileSizeX = 70;
+            tileSizeY = 70;
+            windowSizeX = Game.GraphicsDevice.Viewport.Width;
+            windowSizeY = Game.GraphicsDevice.Viewport.Height;
+            gridSizeX = windowSizeX / tileSizeX;
+            gridSizeY = windowSizeY / tileSizeY;
             activePlayer = Game.Services.GetService<PlayerOne>();
             activePlayer.PlayerEnabled = true;
         }
@@ -52,6 +54,7 @@ namespace FinalProject
             }
             activePlayer.CreateNewToken();
             DisplayBoard();
+            FillPositionArray();
             base.Initialize();
         }
 
@@ -68,12 +71,10 @@ namespace FinalProject
             boardPosition = new Vector2(0, 100);
 
             MouseState ms = Mouse.GetState();
-            //Console.WriteLine(ms.LeftButton == ButtonState.Released);
             if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
                 && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
                 && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
             {
-                //ClickController.Clicked(ms);
                 PlayPosition(ms.X);
             }
             pvMouseS = Mouse.GetState();
@@ -82,40 +83,15 @@ namespace FinalProject
 
         private void PlayPosition(int position)
         {
-            //Console.WriteLine(x / tileSizeX);            
-            //Console.WriteLine(position);
             int playedPosition = position;
-            int dropXpos, dropYpos;
-            if (playedPosition >= 40 && playedPosition <= 110)
-            {
-                playedPosition = 0; 
-                dropXpos = 75;
-            } else if (playedPosition >= 136 && playedPosition <= 206)
-            {
-                playedPosition = 1;
-                dropXpos = 171;
-            } else if (playedPosition >= 226 && playedPosition <= 296)
-            {
-                playedPosition = 2;
-                dropXpos = 261;
-            } else if (playedPosition >= 316 && playedPosition <= 386)
-            {
-                playedPosition = 3;
-                dropXpos = 351;
-            } else if (playedPosition >= 406 && playedPosition <= 476)
-            {
-                playedPosition = 4;
-                dropXpos = 441;
-            } else if (playedPosition >= 496 && playedPosition <= 566)
-            {
-                playedPosition = 5;
-                dropXpos = 531;
-            } else if (playedPosition >= 586 && playedPosition <= 656)
-            {
-                playedPosition = 6;
-                dropXpos = 621;
-            }
-            //Console.WriteLine(playedPosition);
+            if (playedPosition >= 40 && playedPosition <= 110) playedPosition = 0;
+            else if (playedPosition >= 136 && playedPosition <= 206) playedPosition = 1;
+            else if (playedPosition >= 226 && playedPosition <= 296) playedPosition = 2;
+            else if (playedPosition >= 316 && playedPosition <= 386) playedPosition = 3;
+            else if (playedPosition >= 406 && playedPosition <= 476) playedPosition = 4;
+            else if (playedPosition >= 496 && playedPosition <= 566) playedPosition = 5;
+            else if (playedPosition >= 586 && playedPosition <= 656) playedPosition = 6;
+
             int placePosition = -1;
             if (playedPosition == 0 || playedPosition == 1 || playedPosition == 2 ||
                 playedPosition == 3 || playedPosition == 4 || playedPosition == 5 || playedPosition == 6)
@@ -152,28 +128,8 @@ namespace FinalProject
                 //Find out position.X center position
                 //Find out placePosition.Y center position
 
-                switch (placePosition)
-                {
-                    //case 0:
-                    //    dropYpos = ;
-                    //    break;
-                    //case 1:
-                    //    dropYpos = ;
-                    //    break;
-                    //case 2:
-                    //    dropYpos = ;
-                    //    break;
-                    //case 3:
-                    //    dropYpos = ;
-                    //    break;
-                    //case 4:
-                    //    dropYpos = ;
-                    //    break;
-                    case 5:
-                        dropYpos = 594;
-                        break;
-                }
-                //activePlayer.DropToken(new Vector2(dropXpos, dropYpos));
+
+                activePlayer.DropToken(boardPositionArray[playedPosition, placePosition]);
                 SwitchActivePlayer();
                 /*PlacePiece(playedPosition, placePosition)*/
                 ;
@@ -223,26 +179,41 @@ namespace FinalProject
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
             sb.Draw(boardTexture, boardPosition, Microsoft.Xna.Framework.Color.White);
-            //DrawGrid(sb);
             print = false;
             sb.End();
             base.Draw(gameTime);
         }
 
-        private void DrawGrid(SpriteBatch sb)
+        //private void FillPositionArray(SpriteBatch sb)
+        private void FillPositionArray()
         {
-            for (float i = 0.9f; i < gridSizeX; ++i)
+            int xOffset = 20;
+            int yOffset = 10;
+            int countSquares = 0;
+            int boardOffsetX = 100;
+            int boarfOffsetY = 50;
+            int xStartPos = 45;
+            int yStartPos = 135;
+            int row = 0, col = 0;
+            for (int i = xStartPos; i < windowSizeX - boardOffsetX; i += tileSizeX)
             {
-                for (float j = 2.1f; j < gridSizeY; ++j)
+                for (int j = yStartPos; j < windowSizeY - boarfOffsetY; j += tileSizeY)
                 {
-                    sb.Draw(tileTexture, new Microsoft.Xna.Framework.Rectangle(int.Parse((i * tileSizeX).ToString()), int.Parse((j * tileSizeY).ToString())
-                        , tileSizeX, tileSizeY), Microsoft.Xna.Framework.Color.White);
+                    if (countSquares == 42) break;
+                    //sb.Draw(tileTexture,
+                    //    new Rectangle(i,
+                    //                  j,
+                    //    tileSizeX, tileSizeY), Color.White);
+                    countSquares++;
+                    j += yOffset;
+                    boardPositionArray[row, col] = new Vector2(i, j);
                     if (print)
-                    {
-
-                        //System.Console.WriteLine(i * tileSizeX + ", " + j * tileSizeY);
-                    }
+                        Console.WriteLine(boardPositionArray[row, col]);
+                    col++;
                 }
+                col = 0;
+                row++;
+                i += xOffset;
             }
         }
     }

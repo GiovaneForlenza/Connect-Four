@@ -44,6 +44,7 @@ namespace FinalProject
         {
             moveToRestPosition = true;
             restPosition = tokenRestingPositon;
+
             //lerp
         }
 
@@ -60,9 +61,19 @@ namespace FinalProject
                 position.X = MathHelper.Clamp(position.X, 40, Game.GraphicsDevice.Viewport.Width - texture.Width - 40);
             } else
             {
+                if (Math.Round(position.X) != restPosition.X)
+                {
+                    position = Vector2.Lerp(position, new Vector2(restPosition.X, position.Y), 0.03f);
+                    Console.WriteLine(position.X + ", " + restPosition.X);
+                } else
+                {
+
+                    position = Vector2.Lerp(position, restPosition, 0.03f);
+                }
+
                 //lerp to restPosition
                 //position = lerp;
-                if(position == restPosition)
+                if (position == restPosition)
                 {
                     this.Enabled = false;
                 }
