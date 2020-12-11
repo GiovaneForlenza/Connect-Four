@@ -23,7 +23,7 @@ namespace FinalProject
 
         MouseState pvMouseS;
 
-//aaaaaaaaaaaaaaaaa
+//aaaaaaaaaaaaaaaaaaa
         int[,] boardArray = new int[ROWS, COLS];
         Vector2[,] boardPositionArray = new Vector2[ROWS, COLS];
 
