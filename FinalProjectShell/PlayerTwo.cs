@@ -15,6 +15,14 @@ namespace FinalProject
         {
         }
 
+        public override void CreateNewToken()
+        {
+            if (PlayerEnabled)
+            {
+                lastCreated = new Token(Game, false);
+                this.parent.AddComponent(lastCreated);
+            }
+        }
 
         protected override void OnEnabledChanged(object sender, EventArgs args)
         {

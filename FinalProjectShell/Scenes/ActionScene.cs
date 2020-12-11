@@ -21,7 +21,6 @@ namespace FinalProject
             // game as well as keeping track of what belongs to it.
 
 
-            this.AddComponent(new Board(Game));
             PlayerTwo playerTwo = new PlayerTwo(Game, this);
             this.AddComponent(playerTwo);
             Game.Services.AddService<PlayerTwo>(playerTwo);
@@ -29,6 +28,7 @@ namespace FinalProject
             this.AddComponent(playerOne);
             Game.Services.AddService<PlayerOne>(playerOne);
 
+            this.AddComponent(new Board(Game));
             base.Initialize();
         }
 
@@ -39,7 +39,7 @@ namespace FinalProject
             // handle the escape key for this scene
             if (ks.IsKeyDown(Keys.Escape))
             {
-                ((Game)Game).HideAllScenes();
+                ((ConnectFourGame)Game).HideAllScenes();
                 Game.Services.GetService<StartScene>().Show();
             }
 

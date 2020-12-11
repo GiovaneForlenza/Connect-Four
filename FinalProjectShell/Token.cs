@@ -44,6 +44,7 @@ namespace FinalProject
         {
             moveToRestPosition = true;
             restPosition = tokenRestingPositon;
+            //lerp
         }
 
         public override void Update(GameTime gameTime)

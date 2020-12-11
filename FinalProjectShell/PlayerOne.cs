@@ -19,7 +19,7 @@ namespace FinalProject
 
         public override void CreateNewToken()
         {
-           if( PlayerEnabled)
+           if(PlayerEnabled)
             {
                 lastCreated = new Token(Game, true);
                 this.parent.AddComponent(lastCreated);

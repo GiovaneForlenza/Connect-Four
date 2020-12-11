@@ -25,6 +25,7 @@ namespace FinalProject
 
 
         int[,] boardArray = new int[ROWS, COLS];
+        Vector2[,] boardPositionArray = new Vector2[ROWS, COLS];
 
         Vector2 boardPosition;
 
@@ -168,14 +169,11 @@ namespace FinalProject
                     //case 4:
                     //    dropYpos = ;
                     //    break;
-                    //case 5:
-                    //    dropYpos = ;
-                    //    break;
-                    case 6:
+                    case 5:
                         dropYpos = 594;
                         break;
                 }
-                //activePlayer.DropToken(new Vector2(dropXpos, ));
+                //activePlayer.DropToken(new Vector2(dropXpos, dropYpos));
                 SwitchActivePlayer();
                 /*PlacePiece(playedPosition, placePosition)*/
                 ;
