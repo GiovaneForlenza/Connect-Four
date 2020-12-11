@@ -22,13 +22,12 @@ namespace FinalProject
 
 
             this.AddComponent(new Board(Game));
-            PlayerOne playerOne = new PlayerOne(Game);
-            this.AddComponent(playerOne);
-            Game.Services.AddService<PlayerOne>(playerOne);
-            PlayerTwo playerTwo = new PlayerTwo(Game);
+            PlayerTwo playerTwo = new PlayerTwo(Game, this);
             this.AddComponent(playerTwo);
             Game.Services.AddService<PlayerTwo>(playerTwo);
-            this.AddComponent(new ClickController(Game));
+            PlayerOne playerOne = new PlayerOne(Game, this);
+            this.AddComponent(playerOne);
+            Game.Services.AddService<PlayerOne>(playerOne);
 
             base.Initialize();
         }

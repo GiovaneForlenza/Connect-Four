@@ -18,6 +18,9 @@ namespace FinalProject
         Texture2D tileTexture;
         bool print = true;
 
+        Player activePlayer;
+
+
         MouseState pvMouseS;
 
         int[,] boardArray = new int[ROWS, COLS];
@@ -43,6 +46,7 @@ namespace FinalProject
                     boardArray[row, column] = 0;
                 }
             }
+            activePlayer = Game.Services.GetService<PlayerOne>();
             DisplayBoard();
             base.Initialize();
         }
@@ -67,6 +71,7 @@ namespace FinalProject
             {
                 //ClickController.Clicked(ms);
                 PlayPosition(ms.X);
+
             }
             pvMouseS = Mouse.GetState();
             base.Update(gameTime);
@@ -92,7 +97,7 @@ namespace FinalProject
 
                 for (int i = 0; i < COLS; i++)
                 {
-                    if (i != COLS-1)
+                    if (i != COLS - 1)
                     {
                         if (boardArray[playedPosition, i + 1] == 0)
                         {
@@ -112,16 +117,39 @@ namespace FinalProject
             }
             if (placePosition != -1)
             {
-                boardArray[playedPosition, placePosition] = 1;
+                //boardArray[playedPosition, placePosition] = 1;
+                boardArray[playedPosition, placePosition] = activePlayer is PlayerOne ? 1 : 2;
+                // Tell the active player to start moving (lerp) - he should pass this on to 
+                SwitchActivePlayer();
+                // once the lerp in the player is done, the player will call 
+                // SwitchPlay 
+
                 PlacePiece(playedPosition, placePosition);
             }
             DisplayBoard();
             //Game.Components.Add
         }
 
+        public void SwitchActivePlayer()
+        {
+            if (activePlayer != null)
+            {
+                activePlayer.Enabled = false;
+            }
+
+            // based on who was actiove, selectthe other and set to active
+            // then enable both visible and Enabled
+            if (activePlayer is PlayerOne)
+                activePlayer = Game.Services.GetService<PlayerTwo>();
+            else
+                activePlayer = Game.Services.GetService<PlayerOne>();
+
+            activePlayer.Enabled = true;
+        }
+
         private void PlacePiece(int playedPosition, int placePosition)
         {
-            
+
         }
 
         private void DisplayBoard()

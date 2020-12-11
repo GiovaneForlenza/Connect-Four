@@ -11,41 +11,34 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FinalProject
 {
-    class PlayerOne : DrawableGameComponent
-    {
-        Texture2D texture;
-        Vector2 position;
-
-        PlayerActive pAtive = PlayerActive.Active;
-        public PlayerOne(Game game) : base(game)
+    class PlayerOne : Player
+    {        
+        public PlayerOne(Microsoft.Xna.Framework.Game game, GameScene parent) : base(game, parent)
         {
         }
 
-        public PlayerOne(Microsoft.Xna.Framework.Game game) : base(game)
+        protected override void OnEnabledChanged(object sender, EventArgs args)
         {
+            if( Enabled )
+            {
+                // create a new token
+                // save it to a last toeken created placeholder before adding it as a component
+                lastCreated = new Token(Game, true);                
+                this.parent.AddComponent(lastCreated);
+
+            } else
+            {
+                // tell that last token to lerp (which will move sideways to fit the row, and then down to posiotion
+                // then the teoke will set its own enabled to false
+                // then in the playaser set last token reference to null
+                lastCreated = null;
+            }
+
+            base.OnEnabledChanged(sender, args);
         }
 
-        protected override void LoadContent()
-        {
-            texture = Game.Content.Load<Texture2D>(@"Images\Assets\Red");
-            base.LoadContent();
-        }
 
-        public override void Update(GameTime gameTime)
-        {
-            MouseState ms = Mouse.GetState();
-            position = new Vector2(ms.X - texture.Width/2, 10);
-            position.X = MathHelper.Clamp(position.X, 40, GraphicsDevice.Viewport.Width - texture.Width - 40);
-            base.Update(gameTime);
-        }
 
-        public override void Draw(GameTime gameTime)
-        {
-            SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
-            sb.Begin();
-            sb.Draw(texture, position, Microsoft.Xna.Framework.Color.White);
-            sb.End();
-            base.Draw(gameTime);
-        }
+
     }
 }

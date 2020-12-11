@@ -15,10 +15,23 @@ namespace FinalProject
         Inactive = 1
     }
 
+    // public class Player : GameComponent
+
     public class Player : GameComponent
     {
-        public Player(Microsoft.Xna.Framework.Game game) : base(game)
+        static int boardOffset = 40;
+        protected Texture2D texture;
+        protected Vector2 startingPosition;
+        protected GameScene parent;
+        protected Token lastCreated;
+
+        public Player(Microsoft.Xna.Framework.Game game, GameScene parent) : base(game)
         {
+            this.parent = parent;
         }
+
+       
+
+        
     }
 }

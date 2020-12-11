@@ -75,7 +75,7 @@ namespace FinalProject
             // iterate though all components held by this scene 
             // and set Enabled to true and if it's also a DrawableGameComponent
             // set Visible to true
-            foreach( GameComponent component in sceneComponents)
+            foreach( GameComponent component in sceneComponents.ToList())
             {
                 component.Enabled = true;
                 if( component is DrawableGameComponent drawable)
