@@ -119,6 +119,7 @@ namespace FinalProject
             }
             //Check Win
 
+
             if (placePosition != -1)
             {
                 boardArray[playedPosition, placePosition] = activePlayer is PlayerOne ? 1 : 2;
@@ -215,6 +216,42 @@ namespace FinalProject
                 row++;
                 i += xOffset;
             }
+        }
+
+
+
+        private void CheckRows(int row, int chek)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                if(boardArray[row, i] == chek && boardArray[row, i + 1] == chek &&
+                   boardArray[row, i + 2] == chek && boardArray[row, i + 3] == chek)
+                {
+                    Console.WriteLine("WINNER FUCK YEA");
+                }
+            }
+
+        }
+
+        private void ShowTotals()
+        {
+            int zero = 0, one = 0, two = 0;
+            for(int i = 0; i < ROWS; i++)
+            {
+                for(int j = 0; j < COLS; j++)
+                {
+                    switch(boardArray[i, j])
+                    {
+                        case 0: zero++; break;
+                        case 1: one++; break;
+                        case 2: two++; break;
+                    }
+                }
+            }
+
+            Console.WriteLine("zero: " + zero);
+            Console.WriteLine("one: " + one);
+            Console.WriteLine("two: " + two);
         }
     }
 }
