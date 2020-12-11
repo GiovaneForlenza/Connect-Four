@@ -63,12 +63,12 @@ namespace FinalProject
             {
                 if (Math.Round(position.X) != restPosition.X)
                 {
-                    position = Vector2.Lerp(position, new Vector2(restPosition.X, position.Y), 0.03f);
+                    position = Vector2.Lerp(position, new Vector2(restPosition.X, position.Y), 0.3f);
                     Console.WriteLine(position.X + ", " + restPosition.X);
                 } else
                 {
 
-                    position = Vector2.Lerp(position, restPosition, 0.03f);
+                    position = Vector2.Lerp(position, restPosition, 0.05f);
                 }
 
                 //lerp to restPosition
