@@ -11,7 +11,7 @@ namespace FinalProject
 {
     class Board : DrawableGameComponent
     {
-        Texture2D boardTexture;
+        Texture2D lightBoardTexture;
         int gridSizeX, gridSizeY;
         int windowSizeX, windowSizeY;
         int tileSizeX, tileSizeY;
@@ -55,12 +55,13 @@ namespace FinalProject
             activePlayer.CreateNewToken();
             DisplayBoard();
             FillPositionArray();
+            DrawOrder = int.MaxValue - 1;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            boardTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Board_Full");
+            lightBoardTexture = Game.Content.Load<Texture2D>(@"Images\Assets\light-board");
             tileTexture = Game.Content.Load<Texture2D>(@"Images\Assets\grid");
             //Game.Services.GetService<PlayerOne>();
             base.LoadContent();
@@ -179,7 +180,7 @@ namespace FinalProject
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
-            sb.Draw(boardTexture, boardPosition, Microsoft.Xna.Framework.Color.White);
+            sb.Draw(lightBoardTexture, boardPosition, Microsoft.Xna.Framework.Color.White);
             print = false;
             sb.End();
             base.Draw(gameTime);

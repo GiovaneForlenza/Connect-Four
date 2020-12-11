@@ -29,6 +29,7 @@ namespace FinalProject
             Game.Services.AddService<PlayerOne>(playerOne);
 
             this.AddComponent(new Board(Game));
+            this.AddComponent(new DarkBoard(Game));
             base.Initialize();
         }
 

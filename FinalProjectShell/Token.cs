@@ -26,6 +26,12 @@ namespace FinalProject
             this.useRedTexture = playerOneActive;
         }
 
+        public override void Initialize()
+        {
+            DrawOrder = int.MaxValue - 2;
+            base.Initialize();
+        }
+
         protected override void LoadContent()
         {
             if (redTexture == null)
@@ -63,7 +69,7 @@ namespace FinalProject
                 } else
                 {
 
-                    position = Vector2.Lerp(position, restPosition, 0.03f);
+                    position = Vector2.Lerp(position, restPosition, 0.05f);
                 }
                 if (position == restPosition)
                 {

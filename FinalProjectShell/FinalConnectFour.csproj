@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="ClickController.cs" />
+    <Compile Include="DarkBoard.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerTwo.cs" />

@@ -19,8 +19,7 @@ namespace FinalProject
         {
             // create and add any components that belong to 
             // this scene to the Scene components list
-            AddComponent(new HelpTextComponent(Game));
-            
+            AddComponent(new HelpTextComponent(Game));            
             base.Initialize();
         }
 
