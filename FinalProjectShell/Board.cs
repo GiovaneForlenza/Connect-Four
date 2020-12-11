@@ -201,16 +201,10 @@ namespace FinalProject
                 for (int j = yStartPos; j < windowSizeY - boarfOffsetY; j += tileSizeY)
                 {
                     if (countSquares == 42) break;
-                    //sb.Draw(tileTexture,
-                    //    new Rectangle(i,
-                    //                  j,
-                    //    tileSizeX, tileSizeY), Color.White);
                     countSquares++;
-                    j += yOffset;
                     boardPositionArray[row, col] = new Vector2(i, j);
-                    if (print)
-                        Console.WriteLine(boardPositionArray[row, col]);
                     col++;
+                    j += yOffset;
                 }
                 col = 0;
                 row++;
