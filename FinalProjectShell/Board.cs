@@ -22,6 +22,8 @@ namespace FinalProject
         Player activePlayer;
         int counter;
 
+        bool playing = true;
+
         MouseState pvMouseS;
 
         int[,] boardArray = new int[ROWS, COLS];
@@ -70,17 +72,20 @@ namespace FinalProject
 
         public override void Update(GameTime gameTime)
         {
-            boardPosition = new Vector2(0, 100);
-
-            MouseState ms = Mouse.GetState();
-            if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
-                && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
-                && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+            if(playing)
             {
-                PlayPosition(ms.X);
+                boardPosition = new Vector2(0, 100);
+
+                MouseState ms = Mouse.GetState();
+                if(ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
+                    && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
+                    && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+                {
+                    PlayPosition(ms.X);
+                }
+                pvMouseS = Mouse.GetState();
+                base.Update(gameTime); 
             }
-            pvMouseS = Mouse.GetState();
-            base.Update(gameTime);
         }
 
         private void PlayPosition(int position)
@@ -140,11 +145,14 @@ namespace FinalProject
 
             //Check Win
             counter++;
-            if(counter >= 7)
+            if(counter >= 7 && counter < 45)
             {
                 CheckForWin(activePlayer);
+            }else if(counter == 45)
+            {
+                Console.WriteLine("NO WINNER");
             }
-            Console.WriteLine(boardArray[0, 0] + ", " + counter);
+            //Console.WriteLine(boardArray[0, 0] + ", " + counter);
             DisplayBoard();
             //Game.Components.Add
         }
@@ -241,6 +249,10 @@ namespace FinalProject
             CheckDiagonals(2, 0, check);
             CheckDiagonals(1, 0, check);
             CheckDiagonals(0, 0, check);
+
+            CheckForwardDiagonals(5, 0, check);
+            CheckForwardDiagonals(4, 0, check);
+            CheckForwardDiagonals(3, 0, check);
         }
 
         private void CheckCols(int col, int check)
@@ -251,6 +263,7 @@ namespace FinalProject
                    boardArray[col, i + 2] == check && boardArray[col, i + 3] == check)
                 {
                     Console.WriteLine("WINNER FUCK COLIA");
+                    playing = false;
                     return;
                 }
             }
@@ -266,6 +279,24 @@ namespace FinalProject
                    boardArray[col + 3 + i, row + 3] == check)
                 {
                     Console.WriteLine("WINNER FUCK DIE");
+                    
+                    playing = false;
+                    return;
+                }
+            }
+        }
+
+        private void CheckForwardDiagonals(int row, int col, int check)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                if(boardArray[col + 0 + i, row - 0] == check &&
+                   boardArray[col + 1 + i, row - 1] == check &&
+                   boardArray[col + 2 + i, row - 2] == check &&
+                   boardArray[col + 3 + i, row - 3] == check)
+                {
+                    Console.WriteLine("WINNER FUCK DIE BACK");
+                    playing = false;
                     return;
                 }
             }
@@ -279,6 +310,7 @@ namespace FinalProject
                    boardArray[i + 2, row] == check && boardArray[i + 3, row] == check)
                 {
                     Console.WriteLine("WINNER FUCK YEA");
+                    playing = false;
                     return;
                 }
             }
