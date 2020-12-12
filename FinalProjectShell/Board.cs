@@ -123,8 +123,10 @@ namespace FinalProject
             counter++;
             if(counter >= 7)
             {
-                
+                CheckForWin(activePlayer);
             }
+
+            Console.WriteLine(boardArray[0, 0]);
 
 
             if (placePosition != -1)
@@ -227,15 +229,21 @@ namespace FinalProject
                 case PlayerOne: check = 1; break;
                 case PlayerTwo: check = 2; break;
             }
+            CheckRows(0, check);
+            CheckRows(1, check);
+            CheckRows(2, check);
+            CheckRows(3, check);
+            CheckRows(4, check);
+            CheckRows(5, check);
 
         }
 
-        private void CheckRows(int row, int chek)
+        private void CheckRows(int row, int check)
         {
             for(int i = 0; i < 4; i++)
             {
-                if(boardArray[row, i] == chek && boardArray[row, i + 1] == chek &&
-                   boardArray[row, i + 2] == chek && boardArray[row, i + 3] == chek)
+                if(boardArray[i, row] == check && boardArray[i + 1, row] == check &&
+                   boardArray[i + 2, row] == check && boardArray[i + 3, row] == check)
                 {
                     Console.WriteLine("WINNER FUCK YEA");
                 }

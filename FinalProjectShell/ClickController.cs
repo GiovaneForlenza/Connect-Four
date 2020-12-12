@@ -18,7 +18,7 @@ namespace FinalProject
         }
         internal static void Clicked(MouseState ms)
         {
-            Console.WriteLine(ms.X);
+            //Console.WriteLine(ms.X);
 
         }
     }
