@@ -175,11 +175,11 @@ namespace FinalProject
             {
                 for (int row = 0; row < ROWS; row++)
                 {
-                    Console.Write(boardArray[row, col] + "\t");
+                    //Console.Write(boardArray[row, col] + "\t");
                 }
-                Console.WriteLine();
+                //Console.WriteLine();
             }
-            Console.WriteLine();
+            //Console.WriteLine();
         }
 
         public override void Draw(GameTime gameTime)
