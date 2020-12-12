@@ -239,6 +239,8 @@ namespace FinalProject
                 CheckCols(i, check);
             }
             CheckDiagonals(2, 0, check);
+            CheckDiagonals(1, 0, check);
+            CheckDiagonals(0, 0, check);
         }
 
         private void CheckCols(int col, int check)
@@ -249,21 +251,24 @@ namespace FinalProject
                    boardArray[col, i + 2] == check && boardArray[col, i + 3] == check)
                 {
                     Console.WriteLine("WINNER FUCK COLIA");
+                    return;
                 }
             }
         }
 
         private void CheckDiagonals(int row, int col, int check)
         {
-            if(boardArray[col, row] == check && boardArray[col + 1, row + 1] == check &&
-                   boardArray[col + 2, row + 2] == check && boardArray[col + 3, row + 3] == check)
+            for(int i = 0; i < 4; i++)
             {
-                Console.WriteLine("WINNER FUCK DIE");
+                if(boardArray[col + 0 + i, row + 0] == check &&
+                   boardArray[col + 1 + i, row + 1] == check &&
+                   boardArray[col + 2 + i, row + 2] == check &&
+                   boardArray[col + 3 + i, row + 3] == check)
+                {
+                    Console.WriteLine("WINNER FUCK DIE");
+                    return;
+                }
             }
-            /*Console.WriteLine(check + " | " + boardArray[col, i] + ", " +
-                                boardArray[col, i + 1] + ", " +
-                                boardArray[col, i + 2] + ", " +
-                                boardArray[col, i + 3]);*/
         }
 
         private void CheckRows(int row, int check)
@@ -274,6 +279,7 @@ namespace FinalProject
                    boardArray[i + 2, row] == check && boardArray[i + 3, row] == check)
                 {
                     Console.WriteLine("WINNER FUCK YEA");
+                    return;
                 }
             }
 
