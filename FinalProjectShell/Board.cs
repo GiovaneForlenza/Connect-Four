@@ -119,14 +119,7 @@ namespace FinalProject
                     }
                 }
             }
-            //Check Win
-            counter++;
-            if(counter >= 7)
-            {
-                CheckForWin(activePlayer);
-            }
 
-            Console.WriteLine(boardArray[0, 0]);
 
 
             if (placePosition != -1)
@@ -144,6 +137,14 @@ namespace FinalProject
                 /*PlacePiece(playedPosition, placePosition)*/
                 ;
             }
+
+            //Check Win
+            counter++;
+            if(counter >= 7)
+            {
+                CheckForWin(activePlayer);
+            }
+            Console.WriteLine(boardArray[0, 0] + ", " + counter);
             DisplayBoard();
             //Game.Components.Add
         }
@@ -177,11 +178,11 @@ namespace FinalProject
             {
                 for (int row = 0; row < ROWS; row++)
                 {
-                    //Console.Write(boardArray[row, col] + "\t");
+                    Console.Write(boardArray[row, col] + "\t");
                 }
-                //Console.WriteLine();
+                Console.WriteLine();
             }
-            //Console.WriteLine();
+            Console.WriteLine();
         }
 
         public override void Draw(GameTime gameTime)
@@ -226,16 +227,43 @@ namespace FinalProject
             int check = 0;
             switch(player)
             {
-                case PlayerOne: check = 1; break;
-                case PlayerTwo: check = 2; break;
+                case PlayerOne: check = 2; break;
+                case PlayerTwo: check = 1; break;
             }
-            CheckRows(0, check);
-            CheckRows(1, check);
-            CheckRows(2, check);
-            CheckRows(3, check);
-            CheckRows(4, check);
-            CheckRows(5, check);
+            for(int i = 0; i < 6; i++)
+            {
+                CheckRows(i, check);
+            }
+            for(int i = 0; i < 7; i++)
+            {
+                CheckCols(i, check);
+            }
+            CheckDiagonals(2, 0, check);
+        }
 
+        private void CheckCols(int col, int check)
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                if(boardArray[col, i] == check && boardArray[col, i + 1] == check &&
+                   boardArray[col, i + 2] == check && boardArray[col, i + 3] == check)
+                {
+                    Console.WriteLine("WINNER FUCK COLIA");
+                }
+            }
+        }
+
+        private void CheckDiagonals(int row, int col, int check)
+        {
+            if(boardArray[col, row] == check && boardArray[col + 1, row + 1] == check &&
+                   boardArray[col + 2, row + 2] == check && boardArray[col + 3, row + 3] == check)
+            {
+                Console.WriteLine("WINNER FUCK DIE");
+            }
+            /*Console.WriteLine(check + " | " + boardArray[col, i] + ", " +
+                                boardArray[col, i + 1] + ", " +
+                                boardArray[col, i + 2] + ", " +
+                                boardArray[col, i + 3]);*/
         }
 
         private void CheckRows(int row, int check)
