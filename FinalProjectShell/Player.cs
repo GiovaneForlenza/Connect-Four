@@ -8,14 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace FinalProject
-{
-    public enum PlayerActive
-    {
-        Active = 0,
-        Inactive = 1
-    }
-
-
+{    
     public abstract class Player : GameComponent
     {
         
