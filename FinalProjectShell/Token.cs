@@ -13,13 +13,14 @@ namespace FinalProject
     {
         static Texture2D redTexture;
         static Texture2D yellowTexture;
-        Texture2D texture;
+        public Texture2D Texture { get; set; }
         bool useRedTexture;
 
         bool moveToRestPosition = false;
         Vector2 restPosition;
 
-        Vector2 position;
+        public Vector2 position;
+        
         public Token(Game game, bool playerOneActive) : base(game)
         {
 
@@ -32,6 +33,7 @@ namespace FinalProject
             base.Initialize();
         }
 
+
         protected override void LoadContent()
         {
             if (redTexture == null)
@@ -40,7 +42,7 @@ namespace FinalProject
                 yellowTexture = Game.Content.Load<Texture2D>(@"Images\Assets\Yellow");
             }
 
-            texture = useRedTexture ? redTexture : yellowTexture;
+            Texture = useRedTexture ? redTexture : yellowTexture;
 
             base.LoadContent();
         }
@@ -57,9 +59,9 @@ namespace FinalProject
             {
 
                 MouseState ms = Mouse.GetState();
-                position = new Vector2(ms.X - texture.Width / 2, 10);
+                position = new Vector2(ms.X - Texture.Width / 2, 10);
 
-                position.X = MathHelper.Clamp(position.X, 40, Game.GraphicsDevice.Viewport.Width - texture.Width - 40);
+                position.X = MathHelper.Clamp(position.X, 40, Game.GraphicsDevice.Viewport.Width - Texture.Width - 40);
             } else
             {
                 if (Math.Round(position.X) != restPosition.X)
@@ -84,7 +86,7 @@ namespace FinalProject
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
 
-            sb.Draw(texture, position, Microsoft.Xna.Framework.Color.White);
+            sb.Draw(Texture, position, Microsoft.Xna.Framework.Color.White);
 
             sb.End();
 

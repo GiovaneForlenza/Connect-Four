@@ -47,6 +47,8 @@
     <Compile Include="Board.cs" />
     <Compile Include="ClickController.cs" />
     <Compile Include="DarkBoard.cs" />
+    <Compile Include="GameComponents\WinnerTextComponent.cs" />
+    <Compile Include="Scenes\WinScene.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerTwo.cs" />

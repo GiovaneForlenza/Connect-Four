@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 //using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,6 +20,10 @@ namespace FinalProject
         const int ROWS = 7, COLS = 6;
         Texture2D tileTexture;
         bool print = true;
+
+        bool playerWon = false;
+        public static string winner;
+        List<Token> winnersTokens;
 
         Player activePlayer;
         int counter;
@@ -45,7 +51,17 @@ namespace FinalProject
 
         public override void Initialize()
         {
+            SetBoardArrayEmpty();
+            activePlayer.CreateNewToken();
+            DisplayBoard();
+            FillPositionArray();
+            DrawOrder = int.MaxValue - 1;
+            winnersTokens = new List<Token>();
+            base.Initialize();
+        }
 
+        private void SetBoardArrayEmpty()
+        {
             for (int row = 0; row < ROWS; row++)
             {
                 for (int column = 0; column < COLS; column++)
@@ -53,11 +69,6 @@ namespace FinalProject
                     boardArray[row, column] = 0;
                 }
             }
-            activePlayer.CreateNewToken();
-            DisplayBoard();
-            FillPositionArray();
-            DrawOrder = int.MaxValue - 1;
-            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -73,11 +84,15 @@ namespace FinalProject
             boardPosition = new Vector2(0, 100);
 
             MouseState ms = Mouse.GetState();
-            if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
-                && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
-                && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+            if (!playerWon)
             {
-                PlayPosition(ms.X);
+
+                if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
+                    && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
+                    && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+                {
+                    PlayPosition(ms.X);
+                }
             }
             pvMouseS = Mouse.GetState();
             base.Update(gameTime);
@@ -125,28 +140,21 @@ namespace FinalProject
             if (placePosition != -1)
             {
                 boardArray[playedPosition, placePosition] = activePlayer is PlayerOne ? 1 : 2;
-                //Token drops to position
-                // Tell your active player to drop the token
-
-                //Find out position.X center position
-                //Find out placePosition.Y center position
 
 
                 activePlayer.DropToken(boardPositionArray[playedPosition, placePosition]);
                 SwitchActivePlayer();
-                /*PlacePiece(playedPosition, placePosition)*/
-                ;
+
             }
 
             //Check Win
             counter++;
-            if(counter >= 7)
+            if (counter >= 7)
             {
                 CheckForWin(activePlayer);
             }
             Console.WriteLine(boardArray[0, 0] + ", " + counter);
             DisplayBoard();
-            //Game.Components.Add
         }
 
         private void SwitchActivePlayer()
@@ -195,7 +203,6 @@ namespace FinalProject
             base.Draw(gameTime);
         }
 
-        //private void FillPositionArray(SpriteBatch sb)
         private void FillPositionArray()
         {
             int xOffset = 20;
@@ -225,31 +232,99 @@ namespace FinalProject
         private void CheckForWin(Player player)
         {
             int check = 0;
-            switch(player)
+            switch (player)
             {
                 case PlayerOne: check = 2; break;
                 case PlayerTwo: check = 1; break;
             }
-            for(int i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++)
             {
                 CheckRows(i, check);
             }
-            for(int i = 0; i < 7; i++)
+            for (int i = 0; i < 7; i++)
             {
                 CheckCols(i, check);
             }
             CheckDiagonals(2, 0, check);
             CheckDiagonals(1, 0, check);
             CheckDiagonals(0, 0, check);
+            if (playerWon)
+            {
+                //GetWinnerTokens();
+                if (check == 1) winner = "player one";
+                else winner = "player two";
+                ShowWinnerScreen();
+            }
+        }
+
+        private void ShowWinnerScreen()
+        {
+            RestartGame();
+            ((ConnectFourGame)Game).HideAllScenes();
+            Game.Services.GetService<WinScene>().Show();
+        }
+
+        private void RestartGame()
+        {
+            RemoveTokens();
+            ResetStart();
+        }
+
+        private void ResetStart()
+        {
+            activePlayer = Game.Services.GetService<PlayerTwo>();
+            SwitchActivePlayer();
+            SetBoardArrayEmpty();
+            playerWon = false;
+
+        }
+
+        private void RemoveTokens()
+        {
+            int removeAt = 1;
+
+            //foreach (GameComponent component in Game.Components.ToList())
+            //{
+            //    if(component is Token)
+            //    {
+
+            //        Game.Components.Remove(component);
+            //    }
+            //}
+            IEnumerable<Token> tokensInComponents = Game.Components.OfType<Token>();
+            for (int i = Game.Components.ToList().Count()-2; i > 1; i--)
+            {
+                if (Game.Components.ElementAt(i) is Token)
+                {
+                    Game.Components.RemoveAt(i);
+
+                }
+            }
+            IEnumerable<Token> tokensaaInComponents = Game.Components.OfType<Token>();
+            Console.WriteLine();
+        }
+
+        private void GetWinnerTokens()
+        {
+            foreach (GameComponent item in Game.Components)
+            {
+                if (item is Token)
+                {
+                    Token dummy = item as Token;
+                    //Console.WriteLine(dummy.position);
+                }
+                Console.WriteLine(item.ToString());
+            }
         }
 
         private void CheckCols(int col, int check)
         {
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
-                if(boardArray[col, i] == check && boardArray[col, i + 1] == check &&
+                if (boardArray[col, i] == check && boardArray[col, i + 1] == check &&
                    boardArray[col, i + 2] == check && boardArray[col, i + 3] == check)
                 {
+                    playerWon = true;
                     Console.WriteLine("WINNER FUCK COLIA");
                     return;
                 }
@@ -258,13 +333,14 @@ namespace FinalProject
 
         private void CheckDiagonals(int row, int col, int check)
         {
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                if(boardArray[col + 0 + i, row + 0] == check &&
+                if (boardArray[col + 0 + i, row + 0] == check &&
                    boardArray[col + 1 + i, row + 1] == check &&
                    boardArray[col + 2 + i, row + 2] == check &&
                    boardArray[col + 3 + i, row + 3] == check)
                 {
+                    playerWon = true;
                     Console.WriteLine("WINNER FUCK DIE");
                     return;
                 }
@@ -273,11 +349,12 @@ namespace FinalProject
 
         private void CheckRows(int row, int check)
         {
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                if(boardArray[i, row] == check && boardArray[i + 1, row] == check &&
+                if (boardArray[i, row] == check && boardArray[i + 1, row] == check &&
                    boardArray[i + 2, row] == check && boardArray[i + 3, row] == check)
                 {
+                    playerWon = true;
                     Console.WriteLine("WINNER FUCK YEA");
                     return;
                 }
@@ -288,11 +365,11 @@ namespace FinalProject
         private void ShowTotals()
         {
             int zero = 0, one = 0, two = 0;
-            for(int i = 0; i < ROWS; i++)
+            for (int i = 0; i < ROWS; i++)
             {
-                for(int j = 0; j < COLS; j++)
+                for (int j = 0; j < COLS; j++)
                 {
-                    switch(boardArray[i, j])
+                    switch (boardArray[i, j])
                     {
                         case 0: zero++; break;
                         case 1: one++; break;
