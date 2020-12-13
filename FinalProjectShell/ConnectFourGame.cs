@@ -20,6 +20,7 @@ namespace FinalProject
             graphics.PreferredBackBufferHeight = 640;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
         }
 
         /// <summary>
