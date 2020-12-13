@@ -8,11 +8,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace FinalProject
 {
-    public class HelpScene : GameScene
+    class CreditScene : GameScene
     {
-        public HelpScene(Microsoft.Xna.Framework.Game game) : base(game)
+        public CreditScene(Game game) : base(game)
         {
         }
 
@@ -20,10 +21,9 @@ namespace FinalProject
         {
             // create and add any components that belong to 
             // this scene to the Scene components list
-            AddComponent(new HelpTextComponent(Game));            
+            AddComponent(new CreditTextComponent(Game));
             base.Initialize();
         }
-
         public override void Update(GameTime gameTime)
         {
             KeyboardState ks = Keyboard.GetState();
@@ -37,7 +37,5 @@ namespace FinalProject
 
             base.Update(gameTime);
         }
-
-
     }
 }

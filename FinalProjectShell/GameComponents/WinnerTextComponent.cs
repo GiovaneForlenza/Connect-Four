@@ -25,18 +25,20 @@ namespace FinalProject
         private SpriteEffects spriteEffects;
         const double FRAME_DURATION = 0.05;
 
-
+        /// <summary>
+        /// Constructor to set the List of rectangles and
+        /// the spriteEffects
+        /// </summary>
+        /// <param name="game"></param>
         public WinnerTextComponent(Game game) : base(game)
         {
             sourceRectangles = new List<Rectangle>();
             spriteEffects = SpriteEffects.None;
         }
 
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
+        /// <summary>
+        /// Loads all the needed content into the variables
+        /// </summary>
         protected override void LoadContent()
         {
             regularFont = Game.Content.Load<SpriteFont>(@"Fonts\hilightFont");
@@ -51,6 +53,10 @@ namespace FinalProject
             base.LoadContent();
         }
 
+        /// <summary>
+        /// Draws into the screen
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
@@ -67,6 +73,10 @@ namespace FinalProject
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Updates the frames to create the animation using spriteSheet
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
 

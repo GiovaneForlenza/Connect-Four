@@ -9,7 +9,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FinalProject
 {
-    //Changes
+    /// <summary>
+    /// Sets all the selections for the menu
+    /// </summary>
     public enum MenuSelection
     {
         StartGame,
@@ -101,6 +103,8 @@ namespace FinalProject
                     break;
                 case MenuSelection.HighScore:
                 case MenuSelection.Credit:
+                    Game.Services.GetService<CreditScene>().Show();
+                    break;
                 default:
                     // for now there is nothing handling the other options
                     // we will simply show this screen again

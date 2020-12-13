@@ -47,6 +47,11 @@ namespace FinalProject
             this.Components.Add(helpScene);
             Services.AddService<HelpScene>(helpScene);
 
+
+            CreditScene creditScene = new CreditScene(this);
+            this.Components.Add(creditScene);
+            Services.AddService<CreditScene>(creditScene);
+
             WinScene winScene = new WinScene(this);
             this.Components.Add(winScene);
             Services.AddService<WinScene>(winScene);
