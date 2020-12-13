@@ -28,6 +28,8 @@ namespace FinalProject
         Player activePlayer;
         int counter;
 
+        bool playing = true;
+
         MouseState pvMouseS;
 
         int[,] boardArray = new int[ROWS, COLS];
@@ -81,7 +83,9 @@ namespace FinalProject
 
         public override void Update(GameTime gameTime)
         {
-            boardPosition = new Vector2(0, 100);
+            if(playing)
+            {
+                boardPosition = new Vector2(0, 100);
 
             MouseState ms = Mouse.GetState();
             if (!playerWon)
@@ -149,11 +153,14 @@ namespace FinalProject
 
             //Check Win
             counter++;
-            if (counter >= 7)
+            if(counter >= 7)
             {
                 CheckForWin(activePlayer);
+            }else if(counter == 45)
+            {
+                Console.WriteLine("NO WINNER");
             }
-            Console.WriteLine(boardArray[0, 0] + ", " + counter);
+            //Console.WriteLine(boardArray[0, 0] + ", " + counter);
             DisplayBoard();
         }
 
@@ -248,26 +255,6 @@ namespace FinalProject
             CheckDiagonals(2, 0, check);
             CheckDiagonals(1, 0, check);
             CheckDiagonals(0, 0, check);
-            if (playerWon)
-            {
-                //GetWinnerTokens();
-                if (check == 1) winner = "player one";
-                else winner = "player two";
-                ShowWinnerScreen();
-            }
-        }
-
-        private void ShowWinnerScreen()
-        {
-            RestartGame();
-            ((ConnectFourGame)Game).HideAllScenes();
-            Game.Services.GetService<WinScene>().Show();
-        }
-
-        private void RestartGame()
-        {
-            RemoveTokens();
-            ResetStart();
         }
 
         private void ResetStart()
@@ -326,6 +313,7 @@ namespace FinalProject
                 {
                     playerWon = true;
                     Console.WriteLine("WINNER FUCK COLIA");
+                    playing = false;
                     return;
                 }
             }
@@ -342,6 +330,24 @@ namespace FinalProject
                 {
                     playerWon = true;
                     Console.WriteLine("WINNER FUCK DIE");
+                    
+                    playing = false;
+                    return;
+                }
+            }
+        }
+
+        private void CheckForwardDiagonals(int row, int col, int check)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                if(boardArray[col + 0 + i, row - 0] == check &&
+                   boardArray[col + 1 + i, row - 1] == check &&
+                   boardArray[col + 2 + i, row - 2] == check &&
+                   boardArray[col + 3 + i, row - 3] == check)
+                {
+                    Console.WriteLine("WINNER FUCK DIE BACK");
+                    playing = false;
                     return;
                 }
             }
@@ -356,6 +362,7 @@ namespace FinalProject
                 {
                     playerWon = true;
                     Console.WriteLine("WINNER FUCK YEA");
+                    playing = false;
                     return;
                 }
             }
