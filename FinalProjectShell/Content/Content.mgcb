@@ -178,3 +178,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/kermitSprite.png
 
+#begin tokenDropSoundEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:tokenDropSoundEffect.mp3
+

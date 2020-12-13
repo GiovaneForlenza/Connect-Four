@@ -8,7 +8,7 @@ namespace FinalProject
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class ConnectFourGame : Microsoft.Xna.Framework.Game
+    public class ConnectFourGame : Game
     {
         GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;

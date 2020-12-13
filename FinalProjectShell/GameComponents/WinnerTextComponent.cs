@@ -8,7 +8,7 @@ namespace FinalProject
     internal class WinnerTextComponent : DrawableGameComponent
     {
         SpriteFont regularFont;
-        private Color hilightColor = Color.Red;
+        private Color hilightColor = Color.Black;
         private Vector2 startingPosition;
         private string winnerMessage;
 

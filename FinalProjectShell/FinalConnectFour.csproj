@@ -37,8 +37,7 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>game-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -78,6 +77,7 @@
     <Content Include="Content\Board_Front.png" />
     <Content Include="Content\Board_Full.png" />
     <Content Include="Content\Red.png" />
+    <Content Include="game-icon.ico" />
     <Content Include="Icon.ico" />
     <Content Include="Content\Yellow.png" />
   </ItemGroup>

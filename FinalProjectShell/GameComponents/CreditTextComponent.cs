@@ -24,7 +24,11 @@ namespace FinalProject.GameComponents
                 $"Board and chips desing: Authoral\n" +
                 $"Menu design: Professor Aneta Canhoto\n" +
                 $"Win animation Sprite Sheet: \n" +
-                $"\"https://tenor.com/view/kermit-dance- \n fresh-happy-dance-move-gif-15781456\"");            
+                $"\"https://tenor.com/view/kermit-dance- \n " +
+                $"fresh-happy-dance-move-gif-15781456\"\n"  +
+                $"Icon: \"https://loading.io/icon/1t0dg \"\n" +
+                $"Sound Effect: \"https://www.zapsplat.com/music/ \n" +
+                $"game-tone-short-digital-generic-could-be-collect-item-1/ \"");            
         }
 
         protected override void LoadContent()

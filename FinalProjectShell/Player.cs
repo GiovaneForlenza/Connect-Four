@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace FinalProject
-{    
+{
     public abstract class Player : GameComponent
     {
-        
+
         protected GameScene parent;
         protected Token lastCreated;
 
@@ -22,9 +22,17 @@ namespace FinalProject
             PlayerEnabled = false;
         }
 
+        /// <summary>
+        /// Sets the lastCreated to a token with the same color as the active player
+        /// Add lastCreated to the game services
+        /// </summary>
         public abstract void CreateNewToken();
 
-       public void DropToken(Vector2 tokenRestingPositon)
+        /// <summary>
+        /// Sets the restingPosition of the token to be the needed for the animation to work
+        /// </summary>
+        /// <param name="tokenRestingPositon"></param>
+        public void DropToken(Vector2 tokenRestingPositon)
         {
             lastCreated.MoveTokenToRestingPosition(tokenRestingPositon);
             lastCreated = null;

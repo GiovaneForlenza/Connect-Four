@@ -15,6 +15,9 @@ namespace FinalProject
         {
         }
 
+        /// <summary>
+        /// Creates a new token with the property "useRedTexture" false, so that the token will use the yellow texture
+        /// </summary>
         public override void CreateNewToken()
         {
             if (PlayerEnabled)
@@ -23,26 +26,5 @@ namespace FinalProject
                 this.parent.AddComponent(lastCreated);
             }
         }
-
-        protected override void OnEnabledChanged(object sender, EventArgs args)
-        {
-            if (Enabled)
-            {
-                // create a new token
-                // save it to a last toeken created placeholder before adding it as a component
-                lastCreated = new Token(Game, true);
-                //this.parent.AddComponent(lastCreated);
-
-            } else
-            {
-                // tell that last token to lerp (which will move sideways to fit the row, and then down to posiotion
-                // then the teoke will set its own enabled to false
-                // then in the playaser set last token reference to null
-                lastCreated = null;
-            }
-
-            base.OnEnabledChanged(sender, args);
-        }
-
     }
 }

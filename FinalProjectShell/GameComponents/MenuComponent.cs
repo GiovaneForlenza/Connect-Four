@@ -86,6 +86,9 @@ namespace FinalProject
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Switched between the current scene and the selected one
+        /// </summary>
         private void SwitchScenes()
         {
             ((ConnectFourGame)Game).HideAllScenes();

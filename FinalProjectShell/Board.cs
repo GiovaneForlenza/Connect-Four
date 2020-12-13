@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -19,11 +20,12 @@ namespace FinalProject
         int tileSizeX, tileSizeY;
         const int ROWS = 7, COLS = 6;
         Texture2D tileTexture;
-        bool print = true;
+        SoundEffect tokenDropSound;
+        //bool print = true;
 
         bool playerWon = false;
         public static string winner;
-        List<Token> winnersTokens;
+        //List<Token> winnersTokens;
 
         Player activePlayer;
         int counter;
@@ -58,10 +60,12 @@ namespace FinalProject
             //DisplayBoard();
             FillPositionArray();
             DrawOrder = int.MaxValue - 1;
-            winnersTokens = new List<Token>();
             base.Initialize();
         }
 
+        /// <summary>
+        /// Initializes the board array to be empty, allowing the game to restart after a player won
+        /// </summary>
         public void SetBoardArrayEmpty()
         {
             for (int row = 0; row < ROWS; row++)
@@ -76,7 +80,8 @@ namespace FinalProject
         protected override void LoadContent()
         {
             lightBoardTexture = Game.Content.Load<Texture2D>(@"Images\Assets\light-board");
-            tileTexture = Game.Content.Load<Texture2D>(@"Images\Assets\grid");
+            tileTexture = Game.Content.Load<Texture2D>(@"Images\Assets\grid"); 
+            tokenDropSound = Game.Content.Load<SoundEffect>("tokenDropSoundEffect");
             //Game.Services.GetService<PlayerOne>();
             base.LoadContent();
         }
@@ -102,114 +107,123 @@ namespace FinalProject
                 base.Update(gameTime);
             }
         }
-            private void PlayPosition(int position)
+       
+        /// <summary>
+        /// Gets the clicked position (Mouse X position) and check if there's any available spots on the boardArray
+        /// If there are, place the token on the last available spot
+        /// </summary>
+        /// <param name="position"></param>
+        private void PlayPosition(int position)
+        {
+            int playedPosition = position;
+            if (playedPosition >= 40 && playedPosition <= 110) playedPosition = 0;
+            else if (playedPosition >= 136 && playedPosition <= 206) playedPosition = 1;
+            else if (playedPosition >= 226 && playedPosition <= 296) playedPosition = 2;
+            else if (playedPosition >= 316 && playedPosition <= 386) playedPosition = 3;
+            else if (playedPosition >= 406 && playedPosition <= 476) playedPosition = 4;
+            else if (playedPosition >= 496 && playedPosition <= 566) playedPosition = 5;
+            else if (playedPosition >= 586 && playedPosition <= 656) playedPosition = 6;
+
+            int placePosition = -1;
+            if (playedPosition == 0 || playedPosition == 1 || playedPosition == 2 ||
+                playedPosition == 3 || playedPosition == 4 || playedPosition == 5 || playedPosition == 6)
             {
-                int playedPosition = position;
-                if (playedPosition >= 40 && playedPosition <= 110) playedPosition = 0;
-                else if (playedPosition >= 136 && playedPosition <= 206) playedPosition = 1;
-                else if (playedPosition >= 226 && playedPosition <= 296) playedPosition = 2;
-                else if (playedPosition >= 316 && playedPosition <= 386) playedPosition = 3;
-                else if (playedPosition >= 406 && playedPosition <= 476) playedPosition = 4;
-                else if (playedPosition >= 496 && playedPosition <= 566) playedPosition = 5;
-                else if (playedPosition >= 586 && playedPosition <= 656) playedPosition = 6;
 
-                int placePosition = -1;
-                if (playedPosition == 0 || playedPosition == 1 || playedPosition == 2 ||
-                    playedPosition == 3 || playedPosition == 4 || playedPosition == 5 || playedPosition == 6)
+                for (int i = 0; i < COLS; i++)
                 {
-
-                    for (int i = 0; i < COLS; i++)
+                    if (i != COLS - 1)
                     {
-                        if (i != COLS - 1)
+                        if (boardArray[playedPosition, i + 1] == 0)
                         {
-                            if (boardArray[playedPosition, i + 1] == 0)
-                            {
-                                placePosition = i + 1;
-                            } else if (boardArray[playedPosition, i] == 0)
-                            {
-                                placePosition = i;
-                            }
-                        } else
+                            placePosition = i + 1;
+                        } else if (boardArray[playedPosition, i] == 0)
                         {
-                            if (boardArray[playedPosition, i] == 0)
-                            {
-                                placePosition = i;
-                            }
+                            placePosition = i;
+                        }
+                    } else
+                    {
+                        if (boardArray[playedPosition, i] == 0)
+                        {
+                            placePosition = i;
                         }
                     }
                 }
-
-
-
-                if (placePosition != -1)
-                {
-                    boardArray[playedPosition, placePosition] = activePlayer is PlayerOne ? 1 : 2;
-
-
-                    activePlayer.DropToken(boardPositionArray[playedPosition, placePosition]);
-                    SwitchActivePlayer();
-
-                }
-
-                //Check Win
-                counter++;
-                if (counter >= 7)
-                {
-                    CheckForWin(activePlayer);
-                } else if (counter == 45)
-                {
-                    Console.WriteLine("NO WINNER");
-                }
-                //Console.WriteLine(boardArray[0, 0] + ", " + counter);
-                DisplayBoard();
             }
 
-            public void SwitchActivePlayer()
+
+
+            if (placePosition != -1)
             {
-                if (activePlayer != null)
-                {
-                    activePlayer.PlayerEnabled = false;
-                }
+                boardArray[playedPosition, placePosition] = activePlayer is PlayerOne ? 1 : 2;
 
-                if (activePlayer is PlayerOne)
-                {
-                    activePlayer = Game.Services.GetService<PlayerTwo>();
-                } else
-                {
-                    activePlayer = Game.Services.GetService<PlayerOne>();
-                }
-                activePlayer.PlayerEnabled = true;
-                activePlayer.CreateNewToken();
+
+                activePlayer.DropToken(boardPositionArray[playedPosition, placePosition]);
+                tokenDropSound.Play(0.3f, 0, 0);
+                SwitchActivePlayer();
+
             }
 
-            void PlacePiece(int playedPosition, int placePosition)
+            counter++;
+            if (counter >= 7)
             {
-
-            }
-
-            public void DisplayBoard()
+                CheckForWin(activePlayer);
+            } else if (counter == 45)
             {
-                for (int col = 0; col < COLS; col++)
-                {
-                    for (int row = 0; row < ROWS; row++)
-                    {
-                        Console.Write(boardArray[row, col] + "\t");
-                    }
-                    Console.WriteLine();
-                }
-                Console.WriteLine();
+                Console.WriteLine("NO WINNER");
             }
+        }
+
+        /// <summary>
+        /// After a player plays, change the active player to be the other one
+        /// Create a new token with the activePlayer color
+        /// </summary>
+        public void SwitchActivePlayer()
+        {
+            if (activePlayer != null)
+            {
+                activePlayer.PlayerEnabled = false;
+            }
+
+            if (activePlayer is PlayerOne)
+            {
+                activePlayer = Game.Services.GetService<PlayerTwo>();
+            } else
+            {
+                activePlayer = Game.Services.GetService<PlayerOne>();
+            }
+            activePlayer.PlayerEnabled = true;
+            activePlayer.CreateNewToken();
+        }
+
+        /// <summary>
+        /// Prints the board in the console (DEBUG only)
+        /// </summary>
+        //public void DisplayBoard()
+        //{
+        //    for (int col = 0; col < COLS; col++)
+        //    {
+        //        for (int row = 0; row < ROWS; row++)
+        //        {
+        //            Console.Write(boardArray[row, col] + "\t");
+        //        }
+        //        Console.WriteLine();
+        //    }
+        //    Console.WriteLine();
+        //}
 
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch sb = Game.Services.GetService<SpriteBatch>();
             sb.Begin();
-            sb.Draw(lightBoardTexture, boardPosition, Microsoft.Xna.Framework.Color.White);
-            print = false;
+            sb.Draw(lightBoardTexture, boardPosition, Microsoft.Xna.Framework.Color.White);            
             sb.End();
             base.Draw(gameTime);
         }
 
+
+        /// <summary>
+        /// Fills the position array with the X,Y coordinates to allow the token to move to the right spot
+        /// </summary>
         private void FillPositionArray()
         {
             int xOffset = 20;
@@ -236,6 +250,11 @@ namespace FinalProject
             }
         }
 
+
+        /// <summary>
+        /// Checks if there was a winner 
+        /// </summary>
+        /// <param name="player"></param>
         private void CheckForWin(Player player)
         {
             int check = 0;
@@ -265,12 +284,20 @@ namespace FinalProject
             }
         }
 
+
+        /// <summary>
+        /// Displays the Win screen
+        /// </summary>
         private void ShowWinScreen()
         {
             ((ConnectFourGame)Game).HideAllScenes();
             Game.Services.GetService<WinScene>().Show();
         }
 
+
+        /// <summary>
+        /// Restarts all the aspects of the game
+        /// </summary>
         private void ResetStart()
         {
             activePlayer = Game.Services.GetService<PlayerTwo>();
@@ -281,6 +308,11 @@ namespace FinalProject
             playing = true;
         }
 
+
+        /// <summary>
+        /// Removes all the tokens from the Game.Components, but the last one
+        /// The last one is used as the Player activeToken
+        /// </summary>
         private void RemoveTokens()
         {
             for (int i = Game.Components.ToList().Count() - 2; i > 1; i--)
@@ -294,19 +326,25 @@ namespace FinalProject
             playerWon = false;
         }
 
-        private void GetWinnerTokens()
-        {
-            foreach (GameComponent item in Game.Components)
-            {
-                if (item is Token)
-                {
-                    Token dummy = item as Token;
-                    //Console.WriteLine(dummy.position);
-                }
-                Console.WriteLine(item.ToString());
-            }
-        }
+        //private void GetWinnerTokens()
+        //{
+        //    foreach (GameComponent item in Game.Components)
+        //    {
+        //        if (item is Token)
+        //        {
+        //            Token dummy = item as Token;
+        //            //Console.WriteLine(dummy.position);
+        //        }
+        //        Console.WriteLine(item.ToString());
+        //    }
+        //}
 
+
+        /// <summary>
+        /// Checks if a player won with 4 vertical tokens
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="check"></param>
         private void CheckCols(int col, int check)
         {
             for (int i = 0; i < 3; i++)
@@ -322,6 +360,12 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Checks if a player won with 4 diagonal tokens
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="check"></param>
         private void CheckDiagonals(int row, int col, int check)
         {
             for (int i = 0; i < 4; i++)
@@ -356,6 +400,11 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Checks if a player won with 4 horizontal tokens
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="check"></param>
         private void CheckRows(int row, int check)
         {
             for (int i = 0; i < 4; i++)

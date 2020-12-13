@@ -14,7 +14,8 @@ namespace FinalProject
         public DarkBoard(Game game) : base(game)
         {
         }
-        Texture2D darkBoardTexture;
+
+        private Texture2D darkBoardTexture;
         private Vector2 boardPosition;
 
         public override void Initialize()

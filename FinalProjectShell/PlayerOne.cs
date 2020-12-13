@@ -17,6 +17,9 @@ namespace FinalProject
         {
         }
 
+        /// <summary>
+        /// Creates a new token with the property "useRedTexture" true, so that the token will use the red texture
+        /// </summary>
         public override void CreateNewToken()
         {
            if(PlayerEnabled)

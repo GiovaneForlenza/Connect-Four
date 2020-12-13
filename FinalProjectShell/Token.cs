@@ -11,13 +11,13 @@ namespace FinalProject
 {
     public class Token : DrawableGameComponent
     {
-        static Texture2D redTexture;
-        static Texture2D yellowTexture;
+        private static Texture2D redTexture;
+        private static Texture2D yellowTexture;
         public Texture2D Texture { get; set; }
-        bool useRedTexture;
+        private bool useRedTexture;
 
-        bool moveToRestPosition = false;
-        Vector2 restPosition;
+        private bool moveToRestPosition = false;
+        private Vector2 restPosition;
 
         public Vector2 position;
         
@@ -47,6 +47,10 @@ namespace FinalProject
             base.LoadContent();
         }
 
+        /// <summary>
+        /// Sets the rest position to a specific one depending on where it needs to fall
+        /// </summary>
+        /// <param name="tokenRestingPositon"></param>
         internal void MoveTokenToRestingPosition(Vector2 tokenRestingPositon)
         {
             moveToRestPosition = true;
