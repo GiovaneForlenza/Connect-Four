@@ -83,6 +83,8 @@ namespace FinalProject
 
         public override void Update(GameTime gameTime)
         {
+
+            //HELLO GIOVANE
             if(playing)
             {
                 boardPosition = new Vector2(0, 100);
