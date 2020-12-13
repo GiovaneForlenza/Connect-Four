@@ -87,15 +87,16 @@ namespace FinalProject
             {
                 boardPosition = new Vector2(0, 100);
 
-            MouseState ms = Mouse.GetState();
-            if (!playerWon)
-            {
-
-                if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
-                    && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
-                    && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+                MouseState ms = Mouse.GetState();
+                if(!playerWon)
                 {
-                    PlayPosition(ms.X);
+
+                    if(ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
+                        && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
+                        && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+                    {
+                        PlayPosition(ms.X);
+                    }
                 }
             }
             pvMouseS = Mouse.GetState();
