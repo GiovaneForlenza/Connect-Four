@@ -83,122 +83,122 @@ namespace FinalProject
 
         public override void Update(GameTime gameTime)
         {
-            if(playing)
+            if (playing)
             {
                 boardPosition = new Vector2(0, 100);
 
-            MouseState ms = Mouse.GetState();
-            if (!playerWon)
-            {
-
-                if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
-                    && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
-                    && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+                MouseState ms = Mouse.GetState();
+                if (!playerWon)
                 {
-                    PlayPosition(ms.X);
+
+                    if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
+                        && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
+                        && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+                    {
+                        PlayPosition(ms.X);
+                    }
                 }
+                pvMouseS = Mouse.GetState();
+                base.Update(gameTime);
             }
-            pvMouseS = Mouse.GetState();
-            base.Update(gameTime);
         }
-
-        private void PlayPosition(int position)
-        {
-            int playedPosition = position;
-            if (playedPosition >= 40 && playedPosition <= 110) playedPosition = 0;
-            else if (playedPosition >= 136 && playedPosition <= 206) playedPosition = 1;
-            else if (playedPosition >= 226 && playedPosition <= 296) playedPosition = 2;
-            else if (playedPosition >= 316 && playedPosition <= 386) playedPosition = 3;
-            else if (playedPosition >= 406 && playedPosition <= 476) playedPosition = 4;
-            else if (playedPosition >= 496 && playedPosition <= 566) playedPosition = 5;
-            else if (playedPosition >= 586 && playedPosition <= 656) playedPosition = 6;
-
-            int placePosition = -1;
-            if (playedPosition == 0 || playedPosition == 1 || playedPosition == 2 ||
-                playedPosition == 3 || playedPosition == 4 || playedPosition == 5 || playedPosition == 6)
+            private void PlayPosition(int position)
             {
+                int playedPosition = position;
+                if (playedPosition >= 40 && playedPosition <= 110) playedPosition = 0;
+                else if (playedPosition >= 136 && playedPosition <= 206) playedPosition = 1;
+                else if (playedPosition >= 226 && playedPosition <= 296) playedPosition = 2;
+                else if (playedPosition >= 316 && playedPosition <= 386) playedPosition = 3;
+                else if (playedPosition >= 406 && playedPosition <= 476) playedPosition = 4;
+                else if (playedPosition >= 496 && playedPosition <= 566) playedPosition = 5;
+                else if (playedPosition >= 586 && playedPosition <= 656) playedPosition = 6;
 
-                for (int i = 0; i < COLS; i++)
+                int placePosition = -1;
+                if (playedPosition == 0 || playedPosition == 1 || playedPosition == 2 ||
+                    playedPosition == 3 || playedPosition == 4 || playedPosition == 5 || playedPosition == 6)
                 {
-                    if (i != COLS - 1)
+
+                    for (int i = 0; i < COLS; i++)
                     {
-                        if (boardArray[playedPosition, i + 1] == 0)
+                        if (i != COLS - 1)
                         {
-                            placePosition = i + 1;
-                        } else if (boardArray[playedPosition, i] == 0)
+                            if (boardArray[playedPosition, i + 1] == 0)
+                            {
+                                placePosition = i + 1;
+                            } else if (boardArray[playedPosition, i] == 0)
+                            {
+                                placePosition = i;
+                            }
+                        } else
                         {
-                            placePosition = i;
-                        }
-                    } else
-                    {
-                        if (boardArray[playedPosition, i] == 0)
-                        {
-                            placePosition = i;
+                            if (boardArray[playedPosition, i] == 0)
+                            {
+                                placePosition = i;
+                            }
                         }
                     }
                 }
-            }
 
 
 
-            if (placePosition != -1)
-            {
-                boardArray[playedPosition, placePosition] = activePlayer is PlayerOne ? 1 : 2;
-
-
-                activePlayer.DropToken(boardPositionArray[playedPosition, placePosition]);
-                SwitchActivePlayer();
-
-            }
-
-            //Check Win
-            counter++;
-            if (counter >= 7)
-            {
-                CheckForWin(activePlayer);
-            } else if (counter == 45)
-            {
-                Console.WriteLine("NO WINNER");
-            }
-            //Console.WriteLine(boardArray[0, 0] + ", " + counter);
-            DisplayBoard();
-        }
-
-        public void SwitchActivePlayer()
-        {
-            if (activePlayer != null)
-            {
-                activePlayer.PlayerEnabled = false;
-            }
-
-            if (activePlayer is PlayerOne)
-            {
-                activePlayer = Game.Services.GetService<PlayerTwo>();
-            } else
-            {
-                activePlayer = Game.Services.GetService<PlayerOne>();
-            }
-            activePlayer.PlayerEnabled = true;
-            activePlayer.CreateNewToken();
-        }
-
-        void PlacePiece(int playedPosition, int placePosition)
-        {
-
-        }
-
-        public void DisplayBoard()
-        {
-            for (int col = 0; col < COLS; col++)
-            {
-                for (int row = 0; row < ROWS; row++)
+                if (placePosition != -1)
                 {
-                    Console.Write(boardArray[row, col] + "\t");
+                    boardArray[playedPosition, placePosition] = activePlayer is PlayerOne ? 1 : 2;
+
+
+                    activePlayer.DropToken(boardPositionArray[playedPosition, placePosition]);
+                    SwitchActivePlayer();
+
+                }
+
+                //Check Win
+                counter++;
+                if (counter >= 7)
+                {
+                    CheckForWin(activePlayer);
+                } else if (counter == 45)
+                {
+                    Console.WriteLine("NO WINNER");
+                }
+                //Console.WriteLine(boardArray[0, 0] + ", " + counter);
+                DisplayBoard();
+            }
+
+            public void SwitchActivePlayer()
+            {
+                if (activePlayer != null)
+                {
+                    activePlayer.PlayerEnabled = false;
+                }
+
+                if (activePlayer is PlayerOne)
+                {
+                    activePlayer = Game.Services.GetService<PlayerTwo>();
+                } else
+                {
+                    activePlayer = Game.Services.GetService<PlayerOne>();
+                }
+                activePlayer.PlayerEnabled = true;
+                activePlayer.CreateNewToken();
+            }
+
+            void PlacePiece(int playedPosition, int placePosition)
+            {
+
+            }
+
+            public void DisplayBoard()
+            {
+                for (int col = 0; col < COLS; col++)
+                {
+                    for (int row = 0; row < ROWS; row++)
+                    {
+                        Console.Write(boardArray[row, col] + "\t");
+                    }
+                    Console.WriteLine();
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine();
-        }
 
         public override void Draw(GameTime gameTime)
         {
