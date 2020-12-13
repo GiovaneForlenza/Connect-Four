@@ -25,11 +25,5 @@ namespace FinalProject
                 this.parent.AddComponent(lastCreated);
             }
         }
-
-        
-
-
-
-
     }
 }
