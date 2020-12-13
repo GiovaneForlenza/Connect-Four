@@ -55,14 +55,14 @@ namespace FinalProject
         {
             SetBoardArrayEmpty();
             activePlayer.CreateNewToken();
-            DisplayBoard();
+            //DisplayBoard();
             FillPositionArray();
             DrawOrder = int.MaxValue - 1;
             winnersTokens = new List<Token>();
             base.Initialize();
         }
 
-        private void SetBoardArrayEmpty()
+        public void SetBoardArrayEmpty()
         {
             for (int row = 0; row < ROWS; row++)
             {
@@ -83,26 +83,26 @@ namespace FinalProject
 
         public override void Update(GameTime gameTime)
         {
-            if(playing)
+            if (playing)
             {
                 boardPosition = new Vector2(0, 100);
 
-            MouseState ms = Mouse.GetState();
-            if (!playerWon)
-            {
-
-                if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
-                    && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
-                    && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+                MouseState ms = Mouse.GetState();
+                if (!playerWon)
                 {
-                    PlayPosition(ms.X);
-                }
-            }
-            pvMouseS = Mouse.GetState();
-            base.Update(gameTime);
-        }
 
-        private void PlayPosition(int position)
+                    if (ms.LeftButton == ButtonState.Pressed && pvMouseS.LeftButton == ButtonState.Released
+                        && ms.X >= 0 && ms.X <= Game.GraphicsDevice.Viewport.Width
+                        && ms.Y >= 0 && ms.Y <= Game.GraphicsDevice.Viewport.Height)
+                    {
+                        PlayPosition(ms.X);
+                    }
+                }
+                pvMouseS = Mouse.GetState();
+                base.Update(gameTime);
+            }
+        }
+        public void PlayPosition(int position)
         {
             int playedPosition = position;
             if (playedPosition >= 40 && playedPosition <= 110) playedPosition = 0;
@@ -153,10 +153,10 @@ namespace FinalProject
 
             //Check Win
             counter++;
-            if(counter >= 7)
+            if (counter >= 7)
             {
                 CheckForWin(activePlayer);
-            }else if(counter == 45)
+            } else if (counter == 45)
             {
                 Console.WriteLine("NO WINNER");
             }
@@ -164,7 +164,7 @@ namespace FinalProject
             DisplayBoard();
         }
 
-        private void SwitchActivePlayer()
+        public void SwitchActivePlayer()
         {
             if (activePlayer != null)
             {
@@ -182,12 +182,12 @@ namespace FinalProject
             activePlayer.CreateNewToken();
         }
 
-        private void PlacePiece(int playedPosition, int placePosition)
+        void PlacePiece(int playedPosition, int placePosition)
         {
 
         }
 
-        private void DisplayBoard()
+        public void DisplayBoard()
         {
             for (int col = 0; col < COLS; col++)
             {
@@ -255,31 +255,35 @@ namespace FinalProject
             CheckDiagonals(2, 0, check);
             CheckDiagonals(1, 0, check);
             CheckDiagonals(0, 0, check);
+            if (playerWon)
+            {
+                if (check == 1) winner = "player one";
+                else winner = "player two";
+                ResetStart();
+                ShowWinScreen();
+
+            }
+        }
+
+        private void ShowWinScreen()
+        {
+            ((ConnectFourGame)Game).HideAllScenes();
+            Game.Services.GetService<WinScene>().Show();
         }
 
         private void ResetStart()
         {
             activePlayer = Game.Services.GetService<PlayerTwo>();
             SwitchActivePlayer();
+            RemoveTokens();
             SetBoardArrayEmpty();
             playerWon = false;
-
+            playing = true;
         }
 
         private void RemoveTokens()
         {
-            int removeAt = 1;
-
-            //foreach (GameComponent component in Game.Components.ToList())
-            //{
-            //    if(component is Token)
-            //    {
-
-            //        Game.Components.Remove(component);
-            //    }
-            //}
-            IEnumerable<Token> tokensInComponents = Game.Components.OfType<Token>();
-            for (int i = Game.Components.ToList().Count()-2; i > 1; i--)
+            for (int i = Game.Components.ToList().Count() - 2; i > 1; i--)
             {
                 if (Game.Components.ElementAt(i) is Token)
                 {
@@ -287,8 +291,7 @@ namespace FinalProject
 
                 }
             }
-            IEnumerable<Token> tokensaaInComponents = Game.Components.OfType<Token>();
-            Console.WriteLine();
+            playerWon = false;
         }
 
         private void GetWinnerTokens()
@@ -330,7 +333,7 @@ namespace FinalProject
                 {
                     playerWon = true;
                     Console.WriteLine("WINNER FUCK DIE");
-                    
+
                     playing = false;
                     return;
                 }
@@ -339,9 +342,9 @@ namespace FinalProject
 
         private void CheckForwardDiagonals(int row, int col, int check)
         {
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                if(boardArray[col + 0 + i, row - 0] == check &&
+                if (boardArray[col + 0 + i, row - 0] == check &&
                    boardArray[col + 1 + i, row - 1] == check &&
                    boardArray[col + 2 + i, row - 2] == check &&
                    boardArray[col + 3 + i, row - 3] == check)
